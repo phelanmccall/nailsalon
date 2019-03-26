@@ -1,0 +1,186 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  color: #777777;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  background-image: url("../images/silver.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  font-size: x-large;
+  min-height: 100%;
+  line-height: 100%;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+nav {
+  position: static;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  border-bottom: solid #ccc;
+}
+
+
+
+
+
+header {
+  width: 100vw;
+  height: auto;
+  max-height: 10vh;
+  justify-content: center; 
+  background-color: white;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#logo {
+  margin: 0 auto;
+  height: 100%;
+  max-height: 10vh;
+  max-width: 100%;
+  width: auto;
+}
+
+p {
+  margin: 1vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  height: 8vh;
+  border-top: solid thick silver;
+  background-color: #666;
+  overflow: hidden;
+}
+
+footer p {
+  position: absolute;
+  bottom: 40%;
+  right: 40%;
+  color: white;
+  font-size: x-small;
+}
+footer a {
+  text-decoration: none;
+  align-self: flex-end;
+  color: white;
+  margin: 1%;
+  padding: 0% 3% 0% 3%;
+}
+
+footer a:hover {
+  background-color: #4aaaa5;
+}
+
+section div{
+ text-align: center;
+
+}
+#booking img{
+  margin: 0 10px;
+  width: auto;
+  height: auto;
+  min-width: 20vw;
+  max-width: 34vw;
+  max-height: 50vh;
+  background-color: grey;
+  border-radius: 5px;
+  /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
+  box-shadow: -5px 5px 20px black;
+}
+#booking, #directions{
+  position: relative;
+  text-decoration: none;
+}
+#booking div{
+  position: absolute;
+  bottom: 10%;
+  left: 0%;
+  font-size: medium;
+  width: 100%;
+  padding: 2% 0%;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-align: center;
+}
+
+#directions img{
+  margin: 0 10px;
+  width: auto;
+  height: auto;
+  min-width: 20vw;
+  max-width: 34vw;
+  max-height: 50vh;
+  background-color: grey;
+  border-radius: 5px;
+  /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
+  box-shadow: 5px 5px 20px black;
+}
+#directions div{
+  position: absolute;
+  bottom: 10%;
+  left: 2%;
+  font-size: medium;
+  width: 100%;
+  padding: 2% 0%;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-align: center;
+}
+
+#header-links {
+  background-color: white;
+  padding: 4% 2%;
+}
+#header-links a {
+  font-size: medium;
+  margin: 0 auto;
+  padding: 0% 2%;
+}
+
+#header-links :nth-child(2) {
+  border-left: solid thin lightgray;
+  border-right: solid thin lightgray;
+}
+
+#section {
+  text-align: left;
+  color: black;
+  background-color: white;
+ 
+  height: auto;
+  width: 88vw;
+  margin: 0 auto;
+  margin-top: 1vh;
+  padding: 4vh 4vw 8vh 4vw;
+  border: solid #ddd;
+  flex: 1 0 auto;
+  border-radius: 7px;
+}
+
+#section header h2 {
+  text-align: left;
+  color: #4aaaa5;
+  padding: 5% 0%;
+  border-bottom: solid lightgray;
+}
+
+#section section {
+  display: flow-root;
+  margin-top: 4vh;
+}
+
