@@ -65,7 +65,22 @@ nav {
   border-bottom: solid #ccc;
 }
 
+button {
+  background: none;
+  display: inline-block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  transition: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
 
+button:active {
+  transform: scale(0.99);
+  box-shadow: none;
+}
 
 
 
@@ -124,7 +139,12 @@ section div{
  text-align: center;
 
 }
-#booking img{
+
+#apptForm {
+  text-align: center;
+}
+
+#appointments img{
   margin: 0 10px;
   width: auto;
   height: auto;
@@ -136,11 +156,11 @@ section div{
   /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
   box-shadow: -5px 5px 20px black;
 }
-#booking, #directions{
+#appointments, #directions{
   position: relative;
   text-decoration: none;
 }
-#booking div{
+#appointments div{
   position: absolute;
   bottom: 10%;
   left: 0%;
@@ -230,8 +250,19 @@ section div{
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  transition: opacity 600ms, visibility 600ms;
+  animation: fade 1s;
 }
 
+@keyframes fade {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
