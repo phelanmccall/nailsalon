@@ -3,7 +3,7 @@ import logo from './assets/images/logo.png';
 import './App.css';
 import directions from "./assets/images/app-car-charging-33488.jpg";
 import appointments from "./assets/images/beautiful-cleaning-fashion-332046.jpg"
-
+import AppointmentForm from "./components/AppointmentForm";
 class App extends Component {
 
   componentDidMount() {
@@ -57,30 +57,9 @@ class App extends Component {
         </header>
 
 
-        <div id="myModal" class="modal">
+        <div id="myModal" className="modal">
 
-
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="apptForm" >
-              <label for="date">Date:</label>
-              <input type="date" name="date" required /><br />
-              <label for="timeslot">Time:</label>
-              <select name="timeslot" required>
-                <option value="9AM">9AM</option>
-                <option value="11AM">11AM</option>
-                <option value="1PM">1PM</option>
-                <option value="3PM">3PM</option>
-              </select><br />
-              <label for="name">Name:</label>
-              <input type="text" name="name" required /><br />
-              <label for="tel">Phone#:</label>
-              <input type="tel" name="phone" required /><br />
-                <input type="submit" value="Submit" />
-            </form>
-
-        </div>
-
+          <AppointmentForm />
    
           </div>
           <div id="section">
@@ -100,7 +79,7 @@ class App extends Component {
 
           </div>
 
-          <footer class="navbar fixed-bottom justify-content-center w-100 bg-secondary text-white border-info border-top">
+          <footer className="navbar fixed-bottom justify-content-center w-100 bg-secondary text-white border-info border-top">
             <small>Copyright &copy;</small>
           </footer>
   
