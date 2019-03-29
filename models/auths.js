@@ -1,8 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
   var Auths = sequelize.define("Auths", {
-    firstName: DataTypes.STRING,
-
-    full_name: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: [1, 240]
+      }
+    },
 
     lastName: {
       type: DataTypes.STRING,
@@ -11,19 +15,14 @@ module.exports = function(sequelize, DataTypes) {
         len: [1, 240]
       }
     },
+
     email: {
       type: DataTypes.STRING,
       validate: {
         isEmail: true
       }
     },
-    avatar: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        len: [1, 240]
-      }
-    },
+    
     authMode: {
       type: DataTypes.STRING,
       allowNull: true
@@ -47,12 +46,12 @@ module.exports = function(sequelize, DataTypes) {
     // }
   });
   Auths.associate = model => {
-    model.Auths.belongsToMany(model.Projects, {
-      as: "SeeksFunding",
-      through: "UserProjects"
+    model.Auths.belongsToMany(model.Appointment, {
+      as: "HasAppointment",
+      through: "UserAppointment"
     });
     // Foreign key of authId will be made in Favorite table
-    model.Auths.hasOne(model.Favorite);
+    model.Auths.hasOne(model.Appointment);
   };
 
   return Auths;

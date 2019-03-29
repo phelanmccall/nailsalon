@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
+     
         <header>
           <img id="logo" src={logo} alt="logo"></img>
         </header>
