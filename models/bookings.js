@@ -7,12 +7,19 @@ module.exports = (sequelize, Datatypes) => {
         time: Datatypes.STRING,
         booked: {
           type: Datatypes.BOOLEAN,
-          default: false
+          allowNull: false,
+          defaultValue: false
         },
-      },
-      {
-        timestamps: true
+        createdAt: {
+          type: Datatypes.DATE,
+          defaultValue: Datatypes.NOW
+        },
+        updatedAt: {
+          type: Datatypes.DATE,
+          defaultValue: Datatypes.NOW
+        }
       }
+      
       
       
     );

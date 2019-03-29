@@ -143,6 +143,14 @@ section div{
 #apptForm {
   text-align: center;
 }
+#apptForm label {
+  width: auto;
+}
+#apptForm input {
+  width:100%;
+}
+
+
 
 #appointments img{
   margin: 0 10px;
