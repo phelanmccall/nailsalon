@@ -23,6 +23,12 @@ class AppointmentForm extends Component {
           availableAppointments: res.data.map(function(value){
             return value.time;
           })
+        }, function(){
+          if(!this.state.availableAppointments.length){
+            document.getElementById("apptStatus").innerHTML = "No appointments available."
+          }else{
+            document.getElementById("apptStatus").innerHTML = "";
+          }
         })
       })
   }
@@ -68,9 +74,9 @@ class AppointmentForm extends Component {
           }}>
             <span id="apptStatus"></span><br/>
             <label htmlFor="name">Name: </label>
-            <input type="text" name="name" required /><br />
+            <input type="text" name="name" placeholder="Name" required /><br />
             <label htmlFor="tel">Phone: </label>
-            <input type="tel" name="phone" required /><br />
+            <input type="tel" name="phone" placeholder="XXX-XXX-XXXX" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/><br />
             <label htmlFor="date">Date: </label>
             <input type="date" name="date" min={new Date().toISOString().split("T")[0]} onChange={this.handleChangeDate} required /><br />
             <label htmlFor="timeslot">Time: </label>

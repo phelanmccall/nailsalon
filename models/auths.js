@@ -1,7 +1,7 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, Datatypes) {
   var Auths = sequelize.define("Auths", {
     firstName: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       allowNull: true,
       validate: {
         len: [1, 240]
@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
 
     lastName: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       allowNull: true,
       validate: {
         len: [1, 240]
@@ -17,26 +17,34 @@ module.exports = function(sequelize, DataTypes) {
     },
 
     email: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       validate: {
         isEmail: true
       }
     },
     
     authMode: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       allowNull: true
     },
     authModeID: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       allowNull: true
     },
 
     password: {
-      type: DataTypes.STRING,
+      type: Datatypes.STRING,
       validate: {
         isAlphanumeric: true
       }
+    },
+    createdAt: {
+      type: Datatypes.DATE,
+      defaultValue: Datatypes.NOW
+    },
+    updatedAt: {
+      type: Datatypes.DATE,
+      defaultValue: Datatypes.NOW
     }
     // }
     // hooks: {
