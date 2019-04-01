@@ -1,7 +1,9 @@
 require("dotenv").config();
 require("./controller/passport");
+
 const express = require("express");
 const passport = require("passport");
+
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cors = require("cors");
@@ -33,7 +35,7 @@ app.use(
     resave: false,
     saveUnititialized: false,
     cookie: {
-      expires: 6000000,
+      expires: 1000000,
       secure: false
     }
   })

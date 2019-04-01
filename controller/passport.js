@@ -42,7 +42,7 @@ const LocalStrategy = require('passport-local').Strategy;
 //   }
 // ));
 
-passport.use('local', new LocalStrategy(
+passport.use(new LocalStrategy(
   function (username, password, done) {
     db.Auths.findOne(
       {
@@ -50,10 +50,8 @@ passport.use('local', new LocalStrategy(
           email: username
         }
       }).then(function (user) {
-
         if (user) {
-
-          if (bcrypt.compareSync(password, user.password)) {
+          if (password == user.password/*bcrypt.compareSync(password, user.password)*/) {
             return done(null, user);
           } else {
             done(null, false);
@@ -65,6 +63,7 @@ passport.use('local', new LocalStrategy(
 
       }).catch(function (err) {
         console.log(err);
+        done(null, null);
       });
   }
 ));

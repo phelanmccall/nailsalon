@@ -1,7 +1,21 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 class ServicesModal extends Component {
-
+    state = {
+        services: []
+    }
+    componentDidMount() {   
+        axios.get("/services").then((response)=>{
+            console.log(response.data)
+            if(typeof response.data === "object"){
+                this.setState({
+                    services: response.data
+                })
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
 
     render() {
 
@@ -21,14 +35,15 @@ class ServicesModal extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Nails</td>
-                                <td>$99</td>
-                            </tr>
-                            <tr>
-                                <td>Eyebrows</td>
-                                <td>$50</td>
-                            </tr>
+                            {
+                                this.state.services.map((services, index) =>{
+                                    return ( <tr key={index}>
+                                <td>{services.service}</td>
+                                <td>{services.price}</td>
+                            </tr>);
+                                })
+                            }
+                           
                         </tbody>
                     </table>
 

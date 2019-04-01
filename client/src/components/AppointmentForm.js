@@ -12,7 +12,7 @@ class AppointmentForm extends Component {
   }
   handleChangeDate = (e) =>{
     console.log(e.target.value)
-    axios.get("/appointment/"+ e.target.value, {
+    axios.get("/appointments/"+ e.target.value, {
       headers:{
         Accept: "data"
       }
@@ -35,7 +35,7 @@ class AppointmentForm extends Component {
   handleSubmit(e){
     console.log(e);
     e.preventDefault();
-    axios.post("/appointment", {
+    axios.post("/appointments", {
       date: e.target.date.value,
       timeslot: e.target.timeslot.value,
       name: e.target.name.value,

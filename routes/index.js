@@ -1,31 +1,87 @@
 const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
+require("../controller/passport");
 const passport = require("passport");
+router.use(function(req, res, next) {
+  var { path } = req;
+  var base = "/" + path.split("/")[1];
+  var date;
+  if(base === "/appointments"){
+    date = path.split("/")[2];
+  }
+  console.log("gatekeeper : " + base);
+
+  switch (base) {
+    case "/logout":
+    case "/":
+      break;
+    
+    case "/login":
+      next();
+      break;
+    case "/services":
+    console.log(req.method)
+    if(req.method === "GET" || req.user){
+      next();
+      break;
+    }else{
+      break;
+    }
+    case "/appointments":
+      console.log(req.method)
+      if(req.method === "POST" || date){
+        next();
+        break;
+      }
+    default:
+      if (!req.isAuthenticated()) {
+        console.log("Gatekeeper says " + req.isAuthenticated());
+        res.redirect("/");
+        break;
+      }else{
+        next();
+      }
+      break;
+  }
+  
+});
 
 router.route("/login")
-  .post(passport.authenticate("local"),function(req, res){
-    console.log("LOGIN")
-    if(req.user){
-      console.log(req.user);
-      res.send(req.user);
-    }else{
-      console.log("NO USER");
-      res.send("ERROR")
-    }
-  })
+.get(function(req,res){
+  if(req.user){
+    res.send(req.user);
+  }
+})
+.post(passport.authenticate('local'), function (req, res) {
+  if (req.user) {
+    console.log(req.user.email)
+    res.send(req.user)
+  } else {
+    res.redirect("/");
+  }
+});
+
+router.route("/logout").get(function(req, res){
+  req.logOut();
+  res.end();
+})
+
+
+
+
 router.route("/bookings")
   .get(function (req, res) {
-   db.Bookings.findAll({})
-   .then((dbBookings) => {
-     res.send(dbBookings);
-   })
-   .catch((err) => {
-     res.status(404).send(err);
-   })
+    db.Bookings.findAll({})
+      .then((dbBookings) => {
+        res.send(dbBookings);
+      })
+      .catch((err) => {
+        res.status(404).send(err);
+      })
   })
-  .post(function(req, res) {
-    if(req.body){
+  .post(function (req, res) {
+    if (req.body) {
       db.Bookings.findOrCreate({
         where: {
           date: req.body.date,
@@ -40,74 +96,93 @@ router.route("/bookings")
         })
     }
   })
-  .put(function(req, res){
-    if(req.body){
+  .put(function (req, res) {
+    if (req.body) {
       db.Bookings.update({
         where: {
           date: req.body.date,
           time: req.body.time
         }
       },
-      {
-        booked: true
-      }).then((dbBooked) => {
-        res.send("Successfully updated booking.");
-      })
-      .catch((err)=>{
-        res.send(err);
-      })
+        {
+          booked: true
+        }).then((dbBooked) => {
+          res.send("Successfully updated booking.");
+        })
+        .catch((err) => {
+          res.send(err);
+        })
     }
   })
 
-  router.route("/services")
-    .get(function(req, res){
-      db.Services.findAll({})
+router.route("/services")
+  .get(function (req, res) {
+    db.Services.findAll({})
       .then((dbServices) => {
         res.send(dbServices);
       })
       .catch((err) => {
         res.send(err);
       })
-    })
-    .post(function(req, res){
-      db.Services.create({
+  })
+  .post(function (req, res) {
+    db.Services.findOrCreate({
+      where: {
+        service: req.body.service,
+      },
+      defaults: {
         service: req.body.service,
         price: req.body.price
-      })
-      .then((dbService)=>{
+      }
+    })
+      .then((dbService) => {
         res.send(dbService);
       })
       .catch((err) => {
         res.send(err)
       })
-    })
-    .put(function(req, res){
-      db.Services.update({
-        where:{
-          service: req.body.service
-        }
-      },
-      {
-        price: req.body.price
-      })
-    })
-
-
-  router.get("/appointment/:date", function (req, res) {
-
-    db.Bookings.findAll({
-      order:
-        db.sequelize.literal('time ASC')
-
-      ,
-      where: {
-        date: req.params.date,
-        booked: 0
-      }
-    }).then(function (dbBookings) {
-      res.send(dbBookings);
-    })
   })
+  .put(function (req, res) {
+    db.Services.update({
+      price: req.body.price
+    }, 
+    {
+      where:{
+        service: req.body.service
+      }
+    }
+    )
+  })
+
+router.route("/services/:name").delete(function (req, res) {
+  db.Services.destroy({
+    where: {
+      service: req.params.name
+    }
+  }).then(() => {
+    res.send("OK");
+  })
+    .catch((err) => {
+      res.send(err);
+    })
+})
+
+
+router.get("/appointments/:date", function (req, res) {
+
+  db.Bookings.findAll({
+    order:
+      db.sequelize.literal('time ASC')
+
+    ,
+    where: {
+      date: req.params.date,
+      booked: 0
+    }
+  }).then(function (dbBookings) {
+    res.send(dbBookings);
+  })
+})
 
 router.get("/admin", function (req, res) {
   console.log(req.user);
@@ -119,7 +194,7 @@ router.get("/admin", function (req, res) {
 });
 
 
-router.post("/appointment", function (req, res) {
+router.post("/appointments", function (req, res) {
   console.log(req.body);
   db.Appointment
     .create(req.body)

@@ -9,14 +9,17 @@ import AppointmentForm from "./components/AppointmentForm";
 import DirectionsModal from "./components/DirectionsModal";
 import ServicesModal from "./components/ServicesModal";
 import AdminModal from "./components/AdminModal";
+import axios from 'axios';
 
 class App extends Component {
 
   componentDidMount() {
-
+    
   }
+  
 
   handleClick = (e) => {
+   if(document.getElementById("adminModal").style.display !== "block"){
     console.log(e.target.id);
     console.log(e.target.alt)
     var target;
@@ -30,6 +33,8 @@ class App extends Component {
     }
     console.log(document.getElementById(target+"Modal"))
     document.getElementById(target+"Modal").style.display = document.getElementById(target + "Modal").style.display === "block" ? "none" : "block";
+  
+   }
   }
   render() {
     return (
