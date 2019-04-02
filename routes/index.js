@@ -68,6 +68,35 @@ router.route("/logout").get(function(req, res){
 })
 
 
+router.route("/bookings/:date")
+  .get(function(req, res){
+    db.Bookings.findAll({
+      where:{
+        date: req.params.date
+      }
+    }).then((dbBookings)=>{
+      res.send(dbBookings);
+    })
+  })
+  .put(function (req, res) {
+    if (req.body) {
+      db.Bookings.update({
+        booked: db.Sequelize.literal('NOT booked')
+      },
+      {
+        where: {
+          date: req.params.date,
+          time: req.body.time
+        }
+      }
+        ).then((dbBooked) => {
+          res.send("Successfully updated booking.");
+        })
+        .catch((err) => {
+          res.send(err);
+        })
+    }
+  })
 
 
 router.route("/bookings")
@@ -82,39 +111,56 @@ router.route("/bookings")
   })
   .post(function (req, res) {
     if (req.body) {
-      db.Bookings.findOrCreate({
-        where: {
-          date: req.body.date,
-          time: req.body.time
-        }
-      })
-        .then((dbBooking) => {
-          res.send("Successfully created booking.");
+      console.log(req.body)
+      if(req.body.time && req.body.time.length > 1){
+        db.Bookings.bulkCreate(
+          req.body.time.map((val, key) => {
+            return {
+              date: req.body.date,
+              time: val
+            }
+          })
+        ).then((dbBooking) => {
+          console.log(dbBookings + "success bookings");
+          res.send("Successfully created bookings.");
         })
         .catch((err) => {
-          res.status(401).send("Error creating booking.");
+          res.status(401).send("Error creating bookings.");
         })
+      }else if(req.body.time && req.body.time.length === 1){
+        db.Bookings.findOrCreate({
+          where: {
+            date: req.body.date,
+            time: req.body.time
+          },
+          defaults: {
+            date:req.body.date,
+            time: req.body.time
+          }
+        })
+          .then((dbBooking) => {
+            res.send("Successfully created booking.");
+          })
+          .catch((err) => {
+            res.status(401).send("Error creating booking.");
+          })
+      }
     }
   })
-  .put(function (req, res) {
-    if (req.body) {
-      db.Bookings.update({
-        where: {
-          date: req.body.date,
-          time: req.body.time
-        }
-      },
-        {
-          booked: true
-        }).then((dbBooked) => {
-          res.send("Successfully updated booking.");
-        })
-        .catch((err) => {
-          res.send(err);
-        })
-    }
-  })
+  .put(function(req, res) {
+    db.Bookings.destroy({
+      where: {
+        date: req.body.date,
+        time: req.body.time
+      }
+    }).then((dbBooking) => {
+      res.send("Successfully deleted bookings.");
+    }).catch((err)=>{
+      res.send(err.toString());
+    })
+  });
 
+ 
 router.route("/services")
   .get(function (req, res) {
     db.Services.findAll({})
@@ -184,17 +230,17 @@ router.get("/appointments/:date", function (req, res) {
   })
 })
 
-router.get("/admin", function (req, res) {
-  console.log(req.user);
-  if (req.user) {
-    res.send("<html>");
-  } else {
+router.route("/appointments")
+.get(function(req,res){
+  if(req.user){
+    db.Appointment.findAll({}).then((dbAppointments)=>{
+      res.send(dbAppointments);
+    })
+  }else{
     res.redirect("/");
   }
-});
-
-
-router.post("/appointments", function (req, res) {
+})
+.post(function (req, res) {
   console.log(req.body);
   db.Appointment
     .create(req.body)

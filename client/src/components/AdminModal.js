@@ -9,7 +9,7 @@ class AdminModal extends Component {
         err: null
     }
     componentDidMount() {
-        axios.get("/login").then(function(response){
+        axios.get("/login").then((response) => {
             console.log(response.data)
             if(response.data.email){
                 this.setState({
@@ -54,7 +54,7 @@ class AdminModal extends Component {
                         e.target.parentNode.parentNode.style.display = "none";
                     }}>&times;</button>
                     <button className="logoutBtn" onClick={function (e) {
-                        axios.get("/logout").then(function(){
+                        axios.get("/logout").then(()=>{
                             this.setState({
                                 user: null
                             })
