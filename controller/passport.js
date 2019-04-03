@@ -44,21 +44,40 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    db.Auths.findOne(
-      {
-        where: {
-          email: username
-        }
-      }).then(function (user) {
-        if (user) {
-          if (password == user.password/*bcrypt.compareSync(password, user.password)*/) {
-            return done(null, user);
+    db.Auths.findAll({})
+    .then((dbAuths)=>{
+      if(dbAuths.length === 0){
+        db.Auths.create({
+          username: username,
+          password: bcrypt.hashSync(password)
+        }).then((user)=>{
+          if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+              return done(null, user);
+            } else {
+              done(null, false);
+            }
           } else {
-            done(null, false);
+            done(null, null);
           }
-        } else {
-          done(null, null);
-        }
+        })
+      }else{
+        db.Auths.findOne({
+          where:{
+            username: username
+          }
+        }).then((user)=>{
+          if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+              return done(null, user);
+            } else {
+              done(null, false);
+            }
+          } else {
+            done(null, null);
+          }
+        })
+      }
 
 
       }).catch(function (err) {

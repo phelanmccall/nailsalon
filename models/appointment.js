@@ -4,9 +4,13 @@ module.exports = (sequelize, Datatypes) => {
     "Appointment",
     {
       date: Datatypes.STRING,
-      timeslot: Datatypes.STRING,
+      time: Datatypes.STRING,
       name: Datatypes.STRING,
-      phone: Datatypes.STRING
+      phone: Datatypes.STRING,
+      booked: {
+        type: Datatypes.BOOLEAN,
+        default: false
+      }
     }
     
   );

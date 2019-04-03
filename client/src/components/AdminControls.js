@@ -61,7 +61,7 @@ class AdminContols extends Component {
 
     getAppointments = (e) => {
         axios.get("/appointments").then((res) => {
-            if (res.data.lenth && typeof res.data === "object") {
+            if (res.data.length && typeof res.data === "object") {
                 console.log(res.data);
                 this.setState({
                     appointments: res.data
@@ -71,7 +71,15 @@ class AdminContols extends Component {
     }
 
     confirmAppointment = (e) => {
-
+        e.preventDefault();
+        console.log(e.target)
+        axios.put("/appointments").then((res)=>{
+            this.setState({
+                message: res.data
+            }).then(() => {
+                this.getAppointments();
+            })
+        })
     }
 
     getBooked = (e) => {
@@ -125,9 +133,14 @@ class AdminContols extends Component {
                     bookings: [],
                     message: response.data
                 })
-                e.target.reset();
             });
+            e.target.reset();
+        }else{
+            this.setState({
+                message: "No times selected."
+            })
         }
+        
     }
 
     deleteBooking = (e) => {
@@ -158,8 +171,10 @@ class AdminContols extends Component {
         axios.post("/services", {
             service: e.target.service.value,
             price: e.target.price.value
-        }).then((response) => {
-            console.log(response.data)
+        }).then((res) => {
+            this.setState({
+                message: res.data
+            })
         })
         e.target.reset();
 
@@ -168,21 +183,27 @@ class AdminContols extends Component {
     deleteService = (e) => {
         e.preventDefault();
         axios.delete(`/services/${e.target.service.value}`).then((res) => {
-            console.log(res.data);
+            this.setState({
+                message: res.data
+            })
         })
     }
     updateService = (e) => {
         e.preventDefault();
         let { service, price } = e.target;
 
-        axios.put("/services", { service: service.value, price: price.value })
+        axios.put("/services", { service: service.value, price: price.value }).then((res)=>{
+            this.setState({
+                message: res.data
+            })
+        })
     }
     render() {
         console.log(typeof this.state.appointments)
         console.log(this.state.appointments)
         return (
             <div>
-                <span>{this.state.message}</span>
+                <span className="alertText">{this.state.message}</span>
                 <div id="adminControl">
                     <form className="service" onSubmit={this.addService}>
                         <label>Add Service</label><br />
@@ -298,6 +319,9 @@ class AdminContols extends Component {
                                 <th>
                                     Confirmed:
                             </th>
+                            <th>
+
+                            </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -310,7 +334,8 @@ class AdminContols extends Component {
                                         <td>{val.phone}</td>
                                         <td>{val.date}</td>
                                         <td>{val.time}</td>
-                                        <td>false</td>
+                                        <td>{val.booked}</td>
+                                        <td><button data-value={val} onClick={this.confirmAppointment}></button></td>
                                     </tr>
                                 })
                             }

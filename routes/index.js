@@ -20,7 +20,7 @@ router.use(function(req, res, next) {
       break;
     case "/services":
     console.log(req.method)
-    if(req.method === "GET" || req.user){
+    if(req.method === "GET" || req.isAuthenticated()){
       next();
       break;
     }else{
@@ -47,21 +47,21 @@ router.use(function(req, res, next) {
 
 router.route("/login")
 .get(function(req,res){
-  if(req.user){
-    res.send(req.user);
+  if(req.isAuthenticated()){
+    res.send({username: req.user.username});
   }
 })
 .post(passport.authenticate('local'), function (req, res) {
-  if (req.user) {
-    console.log(req.user.email)
-    res.send(req.user)
+  if (req.isAuthenticated()) {
+    
+    res.send({username: req.user.username});
   } else {
     res.redirect("/");
   }
 });
 
 router.route("/logout").get(function(req, res){
-  req.logOut();
+  req.logout();
   res.end();
 })
 
@@ -111,19 +111,38 @@ router.route("/bookings")
     if (req.body) {
       console.log(req.body)
       if(req.body.time && req.body.time.length > 1){
-        db.Bookings.bulkCreate(
-          req.body.time.map((val, key) => {
-            return {
-              date: req.body.date,
-              time: val
-            }
-          })
-        ).then((dbBooking) => {
-          console.log(dbBookings + "success bookings");
-          res.send("Successfully created bookings.");
-        })
-        .catch((err) => {
-          res.status(401).send("Error creating bookings.");
+        db.Bookings.findAll(
+          {
+          attributes:['time'],
+          where:{
+            date: req.body.date,
+            time: req.body.time
+          }
+        }).then((dbBookings)=>{
+          if(dbBookings.length){  
+            var times = dbBookings.filter((val, key)=>{
+              return !this.has(val.dataValues.time);
+            }, req.body.times);
+
+            db.Bookings.bulkCreate(times.map((val, key)=>{
+              return {date: req.body.date, time: val}
+            })).then(function(){
+              res.send("Successfully created bookings.");
+            })
+            .catch((err)=>{
+              res.send("Error creating bookings");
+            })
+          }else{
+            db.Bookings.bulkCreate(req.body.time.map((val, key)=>{
+              return {date: req.body.date, time: val}
+            })).then(function(){
+              res.send("Successfully created bookings.");
+            })
+            .catch((err)=>{
+              res.send("Error creating bookings");
+            })
+          }
+        
         })
       }else if(req.body.time && req.body.time.length === 1){
         db.Bookings.findOrCreate({
@@ -140,7 +159,7 @@ router.route("/bookings")
             res.send("Successfully created booking.");
           })
           .catch((err) => {
-            res.status(401).send("Error creating booking.");
+            res.send("Error creating booking.");
           })
       }
     }
@@ -233,7 +252,27 @@ router.route("/appointments")
     db.Appointment.findAll({}).then((dbAppointments)=>{
       res.send(dbAppointments);
     })
-  
+})
+.put(function(req, res){
+  if (req.body) {
+    db.Appointment.update({
+      booked: db.Sequelize.literal('NOT booked')
+    },
+    {
+      where: {
+        name: req.body.name,
+        phone: req.body.phone,
+        date: req.body.date,
+        time: req.body.time
+      }
+    }
+      ).then((dbAppointments) => {
+        res.send("Successfully updated Appointment.");
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+  }
 })
 .post(function (req, res) {
   console.log(req.body);

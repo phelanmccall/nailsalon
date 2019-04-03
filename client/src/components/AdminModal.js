@@ -11,7 +11,7 @@ class AdminModal extends Component {
     componentDidMount() {
         axios.get("/login").then((response) => {
             console.log(response.data)
-            if (response.data.email) {
+            if (response.data.username) {
                 this.setState({
                     user: response.data
                 })
@@ -30,13 +30,17 @@ class AdminModal extends Component {
                 password: password
             }).then((response) => {
                 console.log(response.data)
-                if (response.data.email) {
+                if (response.data.username  ) {
                     this.setState({
-                        user: response.data
-                    })
+                        user: response.data,
+                        err: false
+                    });
                 }
             }).catch((err) => {
                 console.log(err)
+                this.setState({
+                    err: true
+                })
             })
         } else {
             this.setState({
@@ -50,20 +54,22 @@ class AdminModal extends Component {
             <div className="modal" id="adminModal">
 
                 <div className="modal-content">
-                    <button className="close" onClick={function (e) {
+                    <button className="close" onClick={(e) => {
                         e.target.parentNode.parentNode.style.display = "none";
                     }}>&times;</button>
-                    <button className="logoutBtn" onClick={function (e) {
-                        axios.get("/logout").then(() => {
-                            this.setState({
-                                user: null
-                            })
-                        });
+                    <button className="logoutBtn" onClick={(e) => {
+                        if(this.state.user){
+                            axios.get("/logout").then((e) => {
+                                this.setState({
+                                    user: null
+                                })
+                            });
+                        }
                     }}>Logout</button>
                     {
                         this.state.user ? <AdminControls /> : 
                         <form id="loginForm" >
-                            {this.state.err ? <span>There was an error</span> : <span></span>}
+                            {this.state.err ? <span className="alertText">There was an error</span> : <span></span>}
                             <br/>
                             <label htmlFor="username">Username</label>
                             <input id="username" name="usernmame"></input><br/>

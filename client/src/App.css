@@ -163,7 +163,7 @@ section div{
   width:100%;
 }
 
-#apptStatus {
+.alertText {
   color: red;
 }
 
@@ -361,4 +361,15 @@ section div{
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.logoutBtn {
+  border: 1px black solid;
+  background-color: grey;
+  box-shadow: 1px 1px black;
+
+}
+
+.logoutBtn:active{
+  box-shadow: none;
 }

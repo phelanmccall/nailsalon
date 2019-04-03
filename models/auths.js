@@ -1,43 +1,14 @@
 module.exports = function(sequelize, Datatypes) {
   var Auths = sequelize.define("Auths", {
-    firstName: {
-      type: Datatypes.STRING,
-      allowNull: true,
-      validate: {
-        len: [1, 240]
-      }
-    },
-
-    lastName: {
-      type: Datatypes.STRING,
-      allowNull: true,
-      validate: {
-        len: [1, 240]
-      }
-    },
-
-    email: {
-      type: Datatypes.STRING,
-      validate: {
-        isEmail: true
-      }
+  
+    username: {
+      type: Datatypes.STRING
     },
     
-    authMode: {
-      type: Datatypes.STRING,
-      allowNull: true
-    },
-    authModeID: {
-      type: Datatypes.STRING,
-      allowNull: true
-    },
-
     password: {
-      type: Datatypes.STRING,
-      validate: {
-        isAlphanumeric: true
-      }
+      type: Datatypes.STRING
     },
+    
     createdAt: {
       type: Datatypes.DATE,
       defaultValue: Datatypes.NOW

@@ -72,7 +72,7 @@ class AppointmentForm extends Component {
               availableAppointments: []
             })
           }}>
-            <span id="apptStatus"></span><br/>
+            <span id="apptStatus" className="alertText"></span><br/>
             <label htmlFor="name">Name: </label>
             <input type="text" name="name" placeholder="Name" required /><br />
             <label htmlFor="tel">Phone: </label>
