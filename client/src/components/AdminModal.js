@@ -60,7 +60,7 @@ class AdminModal extends Component {
                             })
                         });
                     }}>Logout</button>
-                    {/* {
+                    {
                         this.state.user ? <AdminControls /> : 
                         <form id="loginForm" >
                             {this.state.err ? <span>There was an error</span> : <span></span>}
@@ -72,8 +72,7 @@ class AdminModal extends Component {
                             
                             <input type="submit" name="submit" onClick={this.handleSubmit} value="login"></input>
                         </form>
-                    } */}
-                    <AdminControls />
+                    }
                 </div>
             </div>
         );

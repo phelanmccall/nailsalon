@@ -30,19 +30,17 @@ class AdminContols extends Component {
     }
     componentDidMount() {
 
+     this.getServices();
+     
+     this.getAppointments();
+   
+    }
+
+    getServices =(e) => {
         axios.get("/services").then((response) => {
             if (response.data.length) {
                 this.setState({
                     services: response.data
-                })
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-        axios.get("/appointments").then((response) => {
-            if (response.data.length) {
-                this.setState({
-                    appointments: response.data
                 })
             }
         }).catch((err) => {
@@ -66,7 +64,7 @@ class AdminContols extends Component {
             if (res.data.lenth && typeof res.data === "object") {
                 console.log(res.data);
                 this.setState({
-                    appointments: [...res.data]
+                    appointments: res.data
                 })
             }
         })
@@ -180,6 +178,8 @@ class AdminContols extends Component {
         axios.put("/services", { service: service.value, price: price.value })
     }
     render() {
+        console.log(typeof this.state.appointments)
+        console.log(this.state.appointments)
         return (
             <div>
                 <span>{this.state.message}</span>
@@ -301,7 +301,9 @@ class AdminContols extends Component {
                             </tr>
                         </thead>
                         <tbody>
+                            
                             {
+                                
                                 this.state.appointments.map((val, key) => {
                                     return <tr>
                                         <td>{val.name}</td>

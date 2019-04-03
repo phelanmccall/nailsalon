@@ -230,13 +230,10 @@ router.get("/appointments/:date", function (req, res) {
 
 router.route("/appointments")
 .get(function(req,res){
-  if(req.user){
     db.Appointment.findAll({}).then((dbAppointments)=>{
       res.send(dbAppointments);
     })
-  }else{
-    res.status(401).send([]);
-  }
+  
 })
 .post(function (req, res) {
   console.log(req.body);
