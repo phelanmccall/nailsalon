@@ -1,37 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 html {
   height: 100%;
   margin: 0;
@@ -104,12 +70,11 @@ max-width: 27.333333%;
 
 #adminControl .booking {
   flex: 0 0 43%;
-max-width: 43%;
+  max-width: 43%;
   position: relative;
   height: auto;
   width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 15px;
 }
 
 #adminControl table{
@@ -148,6 +113,9 @@ header {
 
 p {
   margin: 1vh;
+}
+span{
+  display: inline-block;
 }
 
 footer {
@@ -200,20 +168,8 @@ section div{
 }
 
 
-#appointments img{
-  margin: 0 10px;
-  width: auto;
-  height: auto;
-  min-width: 20vw;
-  max-width: 34vw;
-  max-height: 50vh;
-  background-color: grey;
-  border-radius: 5px;
-  /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
-  box-shadow: -5px 5px 20px black;
-}
 #appointments, #directions, #services{
-  margin: 1vh auto;
+
   position: relative;
   text-decoration: none;
   animation: fade 2s, slide 2s;
@@ -248,13 +204,15 @@ section div{
   text-align: center;
 }
 
+
+
 #services img{
-  margin: 0 10px;
+  margin: 1vh 1vw;
   width: auto;
   height: auto;
   min-width: 20vw;
-  max-width: 34vw;
-  max-height: 50vh;
+  max-width: 30vw;
+  max-height: 40vh;
   background-color: grey;
   border-radius: 5px;
   /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
@@ -262,16 +220,29 @@ section div{
 }
 
 #directions img{
-  margin: 0 10px;
+  margin: 1vh 1vw;
   width: auto;
   height: auto;
   min-width: 20vw;
-  max-width: 34vw;
-  max-height: 50vh;
+  max-width: 30vw;
+  max-height: 40vh;
   background-color: grey;
   border-radius: 5px;
   /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
   box-shadow: 5px 5px 20px black;
+}
+
+#appointments img{
+  margin: 1vh 1vw;
+  width: auto;
+  height: auto;
+  min-width: 20vw;
+  max-width: 30vw;
+  max-height: 40vh;
+  background-color: grey;
+  border-radius: 5px;
+  /* clip-path: polygon(50% 0%, 100% 7%, 100% 93%, 50% 100%, 0% 93%, 0% 7%); */
+  box-shadow: -5px 5px 20px black;
 }
 #directions div{
   position: absolute;
@@ -306,7 +277,7 @@ section div{
   text-align: left;
   color: black;
   background-color: white;
- 
+  
   height: auto;
   width: 88vw;
   margin: 0 auto;

@@ -193,7 +193,7 @@ class AdminContols extends Component {
                     </form>
                     <form class="service" onSubmit={this.updateService}>
                         <label>Update Service</label><br/>
-                        <label>Service</label>
+                        <label>Service</label><br/>
                         <select name="service" required>
                             {
                                 this.state.services.map((value, key)=>{
@@ -202,14 +202,14 @@ class AdminContols extends Component {
                                     </option>
                                 })
                             }
-                        </select>
+                        </select><br/>
                         <label>Price</label>
-                        <input name="price" required></input>
+                        <input name="price" required></input><br/>
                         <input name="submit" type="submit" value="Update" />
                     </form>
                     <form class="service" onSubmit={this.deleteService}>
                         <label>Delete Service</label><br/>
-                        <label>Service</label>
+                        <label>Service</label><br/>
                         <select name="service" required>
                             {
                                 this.state.services.map((value, key)=>{
@@ -218,7 +218,7 @@ class AdminContols extends Component {
                                     </option>
                                 })
                             }
-                        </select>
+                        </select><br/>
                         <input name="submit" type="submit" value="Delete" />
                     </form>
                     <form class="booking" onSubmit={this.addBooking}>
@@ -230,12 +230,13 @@ class AdminContols extends Component {
                             for(let i = 0; i < boxes.length; i++){
                                 boxes[i].checked = e.target.checked
                             }
-                        }} defaultChecked></input>
+                        }} defaultChecked></input><br/>
                         {
                             this.timesArr.map((val, key) => {
                                 return <span key={key}><label>{val}</label><input type="checkbox" name="addBook" value={val} defaultChecked></input></span>
                             })
                         }
+                        <br/>
                         <input type="submit" name="submit" value="Add Booking(s)"></input>
                     </form>
                     <form class="booking" onSubmit={this.deleteBooking}>
@@ -247,12 +248,13 @@ class AdminContols extends Component {
                             for(let i = 0; i < boxes.length; i++){
                                 boxes[i].checked = e.target.checked
                             }
-                        }} defaultChecked></input>
+                        }} defaultChecked></input><br/>
                         {
                             this.state.bookings.map((val, key) => {
                                 return <span key={key}><label>{val.time}</label><input type="checkbox" name="deleteBook" value={val.time} defaultChecked></input></span>
                             })
                         }
+                        <br/>
                         <input type="submit" name="submit" value="Delete Booking(s)"></input>
                     </form>
                     {/* <form onSubmit={this.confirmBookings}>

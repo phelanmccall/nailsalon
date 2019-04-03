@@ -11,7 +11,7 @@ class AdminModal extends Component {
     componentDidMount() {
         axios.get("/login").then((response) => {
             console.log(response.data)
-            if(response.data.email){
+            if (response.data.email) {
                 this.setState({
                     user: response.data
                 })
@@ -20,17 +20,17 @@ class AdminModal extends Component {
             console.log(err)
         })
     }
-    handleSubmit = (e) =>{
+    handleSubmit = (e) => {
         e.preventDefault();
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        if(username.length && password.length){
+        if (username.length && password.length) {
             axios.post("/login", {
                 username: username,
                 password: password
-            }).then((response) =>{
+            }).then((response) => {
                 console.log(response.data)
-                if(response.data.email){
+                if (response.data.email) {
                     this.setState({
                         user: response.data
                     })
@@ -38,12 +38,12 @@ class AdminModal extends Component {
             }).catch((err) => {
                 console.log(err)
             })
-        }else{
+        } else {
             this.setState({
                 err: true
             })
         }
-    } 
+    }
     render() {
 
         return (
@@ -54,13 +54,13 @@ class AdminModal extends Component {
                         e.target.parentNode.parentNode.style.display = "none";
                     }}>&times;</button>
                     <button className="logoutBtn" onClick={function (e) {
-                        axios.get("/logout").then(()=>{
+                        axios.get("/logout").then(() => {
                             this.setState({
                                 user: null
                             })
                         });
                     }}>Logout</button>
-                    {
+                    {/* {
                         this.state.user ? <AdminControls /> : 
                         <form id="loginForm" >
                             {this.state.err ? <span>There was an error</span> : <span></span>}
@@ -72,8 +72,8 @@ class AdminModal extends Component {
                             
                             <input type="submit" name="submit" onClick={this.handleSubmit} value="login"></input>
                         </form>
-                    }
-
+                    } */}
+                    <AdminControls />
                 </div>
             </div>
         );
