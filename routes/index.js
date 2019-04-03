@@ -235,7 +235,7 @@ router.route("/appointments")
       res.send(dbAppointments);
     })
   }else{
-    res.redirect("/");
+    res.status(401).send([]);
   }
 })
 .post(function (req, res) {
