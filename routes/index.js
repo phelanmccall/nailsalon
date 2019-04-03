@@ -13,11 +13,9 @@ router.use(function(req, res, next) {
   console.log("gatekeeper : " + base);
 
   switch (base) {
-    case "/logout":
     case "/":
-      break;
-    
     case "/login":
+    case "/logout":
       next();
       break;
     case "/services":
