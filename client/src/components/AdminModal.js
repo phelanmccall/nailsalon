@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import AdminHeader from "../components/AdminHeader";
 import AdminControls from "../components/AdminControls";
 
 class AdminModal extends Component {
@@ -18,6 +18,15 @@ class AdminModal extends Component {
             }
         }).catch((err) => {
             console.log(err)
+        })
+    }
+
+    logout = (e) =>{
+        e.preventDefault();
+        axios.get("/logout").then((res)=>{
+            this.setState({
+                user: null
+            })
         })
     }
     handleSubmit = (e) => {
@@ -57,15 +66,9 @@ class AdminModal extends Component {
                     <button className="close" onClick={(e) => {
                         e.target.parentNode.parentNode.style.display = "none";
                     }}>&times;</button>
-                    <button className="logoutBtn" onClick={(e) => {
-                        if(this.state.user){
-                            axios.get("/logout").then((e) => {
-                                this.setState({
-                                    user: null
-                                })
-                            });
-                        }
-                    }}>Logout</button>
+                    {
+                        this.state.user ?  <AdminHeader logout={this.logout}/> : <span></span>
+                    }
                     {
                         this.state.user ? <AdminControls /> : 
                         <form id="loginForm" >

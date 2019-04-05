@@ -231,19 +231,22 @@ router.route("/services/:name").delete(function (req, res) {
 })
 
 
-router.get("/appointments/:date", function (req, res) {
+router.route("/appointments/:date").get(function (req, res) {
 
   db.Bookings.findAll({
     order:
       db.sequelize.literal('time ASC')
-
     ,
     where: {
       date: req.params.date,
       booked: 0
     }
   }).then(function (dbBookings) {
-    res.send(dbBookings);
+    if(dbBookings){
+      res.send(dbBookings);
+    }else{
+      res.send([])
+    }
   })
 })
 
@@ -254,7 +257,8 @@ router.route("/appointments")
     })
 })
 .put(function(req, res){
-  if (req.body) {
+  console.log(req.body)
+  if (req.body && req.body.delete != true) {
     db.Appointment.update({
       booked: db.Sequelize.literal('NOT booked')
     },
@@ -267,7 +271,40 @@ router.route("/appointments")
       }
     }
       ).then((dbAppointments) => {
-        res.send("Successfully updated Appointment.");
+        db.Bookings.update({
+          booked: db.Sequelize.literal('NOT booked')
+        },{
+          where:{
+            date: req.body.date,
+            time: req.body.time
+          }
+        }).then((dbBooking) => {
+          res.send("Successfully confirmed appointment");
+        })
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+  }else{
+    db.Appointment.destroy({
+      where: {
+        name: req.body.name,
+        phone: req.body.phone,
+        date: req.body.date,
+        time: req.body.time
+      }
+    }
+      ).then((dbAppointments) => {
+        db.Bookings.update({
+          booked: false
+        },{
+          where:{
+            date: req.body.date,
+            time: req.body.time
+          }
+        }).then((dbBooking) => {
+          res.send("Successfully confirmed appointment");
+        })
       })
       .catch((err) => {
         res.send(err);

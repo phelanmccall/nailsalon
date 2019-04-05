@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import AppointmentAdmin from "../components/AppointmentAdmin";
+import ServiceForms from "../components/ServiceForms";
+import BookingsForms from "../components/BookingsForms"
 
 class AdminContols extends Component {
     timesArr = [
@@ -36,29 +39,7 @@ class AdminContols extends Component {
    
     }
 
-    getServices =(e) => {
-        axios.get("/services").then((response) => {
-            if (response.data.length) {
-                this.setState({
-                    services: response.data
-                })
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-
-    getBookings = (e) => {
-        e.preventDefault();
-        axios.get(`/bookings/${e.target.value}`).then((response) => {
-            console.log(response.data);
-            this.setState({
-                bookings: response.data
-            })
-        });
-
-    }
-
+   
     getAppointments = (e) => {
         axios.get("/appointments").then((res) => {
             if (res.data.length && typeof res.data === "object") {
@@ -72,16 +53,46 @@ class AdminContols extends Component {
 
     confirmAppointment = (e) => {
         e.preventDefault();
-        console.log(e.target)
-        axios.put("/appointments").then((res)=>{
+        console.log(e.target.attributes);
+        
+        axios.put("/appointments",
+        {
+            name: e.target.attributes["data-name"].value,
+            phone: e.target.attributes["data-phone"].value,
+            date: e.target.attributes["data-date"].value,
+            time: e.target.attributes["data-time"].value,
+            delete: false
+        }).then((res)=>{
+            console.log(res.data)
             this.setState({
                 message: res.data
-            }).then(() => {
+            }, () => {
                 this.getAppointments();
             })
         })
     }
 
+    deleteAppointment = (e) => {
+        e.preventDefault();
+        console.log(e.target.attributes);
+        
+        axios.put("/appointments",
+        {
+            name: e.target.attributes["data-name"].value,
+            phone: e.target.attributes["data-phone"].value,
+            date: e.target.attributes["data-date"].value,
+            time: e.target.attributes["data-time"].value,
+            delete: true
+        }).then((res)=>{
+            console.log(res.data)
+            this.setState({
+                message: res.data
+            }, () => {
+                this.getAppointments();
+            })
+        })
+    }
+ 
     getBooked = (e) => {
         e.preventDefault();
         axios.get(`/bookings/${e.target.value}`).then((response) => {
@@ -96,6 +107,17 @@ class AdminContols extends Component {
             })
 
         });
+    }
+
+    getBookings = (e) => {
+        e.preventDefault();
+        axios.get(`/bookings/${e.target.value}`).then((response) => {
+            console.log(response.data);
+            this.setState({
+                bookings: response.data
+            })
+        });
+
     }
 
     confirmBookings = (e) => {
@@ -164,6 +186,17 @@ class AdminContols extends Component {
 
 
     }
+    getServices =(e) => {
+        axios.get("/services").then((response) => {
+            if (response.data.length) {
+                this.setState({
+                    services: response.data
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
     addService = (e) => {
         e.preventDefault();
@@ -203,145 +236,27 @@ class AdminContols extends Component {
         console.log(this.state.appointments)
         return (
             <div>
-                <span className="alertText">{this.state.message}</span>
+                <span className="alertText">{typeof this.state.message === "string" ? this.state.message : ""}</span>
                 <div id="adminControl">
-                    <form className="service" onSubmit={this.addService}>
-                        <label>Add Service</label><br />
-                        <label>Service</label>
-                        <input name="service" required></input>
-                        <label>Price</label>
-                        <input name="price" required></input>
-                        <input name="submit" type="submit" value="Submit" />
-                    </form>
-                    <form className="service" onSubmit={this.updateService}>
-                        <label>Update Service</label><br />
-                        <label>Service</label><br />
-                        <select name="service" required>
-                            {
-                                this.state.services.map((value, key) => {
-                                    return <option key={key}>
-                                        {value.service}
-                                    </option>
-                                })
-                            }
-                        </select><br />
-                        <label>Price</label>
-                        <input name="price" required></input><br />
-                        <input name="submit" type="submit" value="Update" />
-                    </form>
-                    <form className="service" onSubmit={this.deleteService}>
-                        <label>Delete Service</label><br />
-                        <label>Service</label><br />
-                        <select name="service" required>
-                            {
-                                this.state.services.map((value, key) => {
-                                    return <option key={key}>
-                                        {value.service}
-                                    </option>
-                                })
-                            }
-                        </select><br />
-                        <input name="submit" type="submit" value="Delete" />
-                    </form>
-                    <form className="booking" onSubmit={this.addBooking}>
-                        <label>Add a Booking</label><br />
-                        <label htmlFor="date">Date: </label>
-                        <input type="date" name="date" min={new Date().toISOString().split("T")[0]} required /><br />
-                        <label>Check All</label><input type="checkbox" onClick={function (e) {
-                            var boxes = document.querySelectorAll("input[name=addBook");
-                            for (let i = 0; i < boxes.length; i++) {
-                                boxes[i].checked = e.target.checked
-                            }
-                        }} defaultChecked></input><br />
-                        {
-                            this.timesArr.map((val, key) => {
-                                return <span key={key}><label>{val}</label><input type="checkbox" name="addBook" value={val} defaultChecked></input></span>
-                            })
-                        }
-                        <br />
-                        <input type="submit" name="submit" value="Add Booking(s)"></input>
-                    </form>
-                    <form className="booking" onSubmit={this.deleteBooking}>
-                        <label>Delete a Booking</label><br />
-                        <label htmlFor="date">Date: </label>
-                        <input type="date" name="date" onChange={this.getBookings} required /><br />
-                        <label>Check All</label><input type="checkbox" onClick={function (e) {
-                            var boxes = document.querySelectorAll("input[name=deleteBook");
-                            for (let i = 0; i < boxes.length; i++) {
-                                boxes[i].checked = e.target.checked
-                            }
-                        }} defaultChecked></input><br />
-                        {
-                            this.state.bookings.map((val, key) => {
-                                return <span key={key}><label>{val.time}</label><input type="checkbox" name="deleteBook" value={val.time} defaultChecked></input></span>
-                            })
-                        }
-                        <br />
-                        <input type="submit" name="submit" value="Delete Booking(s)"></input>
-                    </form>
-                    {/* <form onSubmit={this.confirmBookings}>
-                        <label>Confirm Bookings</label>
-                        <label>Date</label>
-                        <input type="date" name="date" min={new Date().toISOString().split("T")[0]} onChange={this.getBooked} required /><br />
-                        <label>Check All</label><input type="checkbox" onClick={function(e){
-                            var boxes = document.querySelectorAll("input[name=confirmBook");
-                            for(let i = 0; i < boxes.length; i++){
-                                boxes[i].checked = e.target.checked
-                            }
-                        }} defaultChecked></input>
-                        {
-                            this.state.booked.reduce((array, val, key) => {
-                                console.log(val.booked);
-                                if(!val.booked){
-                                    array.push(<span key={key}><label>{val.time}</label><input type="checkbox" name="confirmBook" value={val.time} defaultChecked></input></span>)
-                                }
-
-                                return array;
-                            }, [])
-                        }
-                        <input type="submit" value="submit"></input>
-                    </form> */}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Name:
-                            </th>
-                                <th>
-                                    Phone:
-                            </th>
-                                <th>
-                                    Date:
-                            </th>
-                                <th>
-                                    Time:
-                            </th>
-                                <th>
-                                    Confirmed:
-                            </th>
-                            <th>
-
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            {
-                                
-                                this.state.appointments.map((val, key) => {
-                                    return <tr>
-                                        <td>{val.name}</td>
-                                        <td>{val.phone}</td>
-                                        <td>{val.date}</td>
-                                        <td>{val.time}</td>
-                                        <td>{val.booked}</td>
-                                        <td><button data-value={val} onClick={this.confirmAppointment}></button></td>
-                                    </tr>
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                    
+                    <ServiceForms 
+                        services={this.state.services}
+                        addService={this.addService}
+                        deleteService={this.deleteService}
+                        updateService={this.updateService}
+                    />
+                   <BookingsForms 
+                    addBooking={this.addBooking}
+                    deleteBooking={this.deleteBooking}
+                    bookings={this.state.bookings}
+                    timesArr={this.timesArr}
+                   />
+                   <AppointmentAdmin 
+                    appointments={this.state.appointments}
+                    confirmAppointment={this.confirmAppointment}
+                    deleteAppointment={this.deleteAppointment}
+                    />
+                 </div>
 
             </div>
         );

@@ -48,8 +48,8 @@ button {
 
 button:active {
   transform: scale(0.99);
-  box-shadow: none;
 }
+
 #adminControl{
   display: flex;
   flex-wrap: wrap;
@@ -57,7 +57,9 @@ button:active {
   padding-left: 15px;
   padding-right: 15px;
 }
-
+#adminControl span{
+  display: contents;
+}
 #adminControl .service {
   flex: 0 0 27.333333%;
 max-width: 27.333333%;
@@ -166,7 +168,6 @@ section div{
 .alertText {
   color: red;
 }
-
 
 #appointments, #directions, #services{
 
@@ -367,9 +368,16 @@ section div{
   border: 1px black solid;
   background-color: grey;
   box-shadow: 1px 1px black;
-
+  padding: 1%;
 }
 
 .logoutBtn:active{
   box-shadow: none;
+}
+
+.confirmButton {
+  padding: 1%;
+  display: block;
+  background: #aaa;
+  border: 1px solid black;
 }

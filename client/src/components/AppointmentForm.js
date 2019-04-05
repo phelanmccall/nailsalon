@@ -33,11 +33,11 @@ class AppointmentForm extends Component {
       })
   }
   handleSubmit(e){
-    console.log(e);
+    console.log(Object.keys(e.target));
     e.preventDefault();
     axios.post("/appointments", {
       date: e.target.date.value,
-      timeslot: e.target.timeslot.value,
+      time: e.target.time.value,
       name: e.target.name.value,
       phone: e.target.phone.value
     },
@@ -76,11 +76,11 @@ class AppointmentForm extends Component {
             <label htmlFor="name">Name: </label>
             <input type="text" name="name" placeholder="Name" required /><br />
             <label htmlFor="tel">Phone: </label>
-            <input type="tel" name="phone" placeholder="XXX-XXX-XXXX" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/><br />
+            <input type="tel" name="phone" placeholder="##########" pattern="[0-9]{10}" required/><br />
             <label htmlFor="date">Date: </label>
             <input type="date" name="date" min={new Date().toISOString().split("T")[0]} onChange={this.handleChangeDate} required /><br />
-            <label htmlFor="timeslot">Time: </label>
-            <select name="timeslot" required>
+            <label htmlFor="time">Time: </label>
+            <select name="time" required>
             {
             this.state.availableAppointments.map(function(value, key){
               return <option value={value} key={key} >{value}</option>

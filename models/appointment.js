@@ -3,13 +3,14 @@ module.exports = (sequelize, Datatypes) => {
   const Appointment = sequelize.define(
     "Appointment",
     {
-      date: Datatypes.STRING,
-      time: Datatypes.STRING,
+      date: Datatypes.DATEONLY,
+      time: Datatypes.TIME,
       name: Datatypes.STRING,
       phone: Datatypes.STRING,
       booked: {
         type: Datatypes.BOOLEAN,
-        default: false
+        defaultValue: false,
+        allowNull: false
       }
     }
     
