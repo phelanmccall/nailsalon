@@ -52,12 +52,13 @@ router.route("/login")
 .get(function(req,res){
   if(req.isAuthenticated()){
     res.send({username: req.user.username});
+  }else{
+    res.status(401).send({});
   }
 })
 .post(passport.authenticate('local'), function (req, res) {
   console.log("WHOOPSY DOOPSY")
   if (req.isAuthenticated()) {
-    
     res.send({username: req.user.username});
   } else {
     res.redirect("/");
@@ -345,7 +346,7 @@ router.route("/info")
   .get(function(req, res){
     db.Business.findOne({})
       .then((dbBusiness)=>{
-        
+        console.log(dbBusiness);
         if(dbBusiness){
           res.send(dbBusiness.dataValues);
         }
