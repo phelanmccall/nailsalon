@@ -12,23 +12,58 @@ import AdminModal from "./components/AdminModal";
 import axios from 'axios';
 
 class App extends Component {
-
-  componentDidMount() {
-    
+  state = {
+    business: {
+      address:"",
+      phone: "",
+      button1: "",
+      button2: "",
+      button3: "",
+      api: ""
+    }
   }
-  
+
+  componentDidMount(){
+    let modals = document.getElementsByClassName("modal");
+    for(let i = 0 ; i < modals.length; i++){
+      modals[i].onclick = function(e){
+        e.preventDefault();
+        if(e.target.className === "modal"){
+          e.target.style.display = "none";
+        }
+      }
+    }
+
+    this.getBusiness();
+  }
+
+  getBusiness = () => {
+    console.log("GET");
+
+    axios.get("/info").then((res)=>{
+      console.log(res.data);
+      if(res.data){
+        this.setState({
+          business: res.data
+        },
+        function(){
+          console.log(this.state.business);
+        })
+      }
+    })
+  }
 
   handleClick = (e) => {
    if(document.getElementById("adminModal").style.display !== "block"){
     console.log(e.target.id);
-    console.log(e.target.alt)
+    console.log(e.target.parentNode)
     var target;
     if(e.target.id){
       target = e.target.id;
     }else if(e.target.alt)  {
       target = e.target.alt;
     }else{
-      target = e.target.innerHTML.toLowerCase();
+      target = e.target.parentNode.id;
       console.log(e.target);
     }
     console.log(document.getElementById(target+"Modal"))
@@ -37,28 +72,37 @@ class App extends Component {
    }
   }
   render() {
+    console.log(this.state.business)
     return (
       <div className="App">
      
-        <header>
-          <img id="logo" src={logo} alt="logo"></img>
+        {
+          this.state.business ? <header>
+          <img id="logo" src={this.state.business.logo ? this.state.business.logo : logo} alt="logo"></img>
           <address id="address">
-                        Nail Salon
-                        123 Fake St.<br/>
-                        Anywhere, CA 90210
+                     {
+                       this.state.business.address
+                     }
             </address>
                     <br/>
-            <a id="phone" href="tel:+18475555555">1-847-555-5555</a>
+            <a id="phone" href={"tel:+" + this.state.business.phone}>{this.state.business.phone}</a>
         </header>
+        :
+        <header>
+        <img id="logo" src={logo} alt="logo"></img></header>
+        }
 
 
           <AppointmentForm />
 
           <ServicesModal />
         
-          <DirectionsModal />
+          <DirectionsModal
+            address={this.state.business.address}
+            api={this.state.business.api}
+          />
 
-          <AdminModal />
+          <AdminModal getBusiness={this.getBusiness} />
 
         <div id="section">
           <section>
@@ -68,7 +112,7 @@ class App extends Component {
                 onClick={this.handleClick}
                 src={appointments}
                 alt="appointments"
-                text="Appointments"
+                text={this.state.business.button1}
               />
 
               <CustomButton
@@ -76,7 +120,7 @@ class App extends Component {
                 onClick={this.handleClick}
                 src={services}
                 alt="services"
-                text="Services"
+                text={this.state.business.button2}
               />
               <CustomButton 
                 id="directions"

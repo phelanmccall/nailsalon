@@ -3,8 +3,8 @@ module.exports = (sequelize, Datatypes) => {
     const Bookings = sequelize.define(
       "Bookings",
       {
-        date: Datatypes.STRING,
-        time: Datatypes.STRING,
+        date: Datatypes.DATEONLY,
+        time: Datatypes.TIME,
         booked: {
           type: Datatypes.BOOLEAN,
           allowNull: false,

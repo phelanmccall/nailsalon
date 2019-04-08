@@ -22,6 +22,27 @@ class AppointmentForm extends Component {
         this.setState({
           availableAppointments: res.data.map(function(value){
             return value.time;
+          }).map((val, key)=>{
+            let hour = parseInt(val.slice(0, 2));
+            let min = val.slice(3,5);
+            let end;
+            if(hour > 12){
+                hour = hour - 12;
+                if(hour < 10){
+                    hour = "0"+ hour;
+                }
+                end = "PM";
+            }else if(hour === 12){
+                end = "PM";
+            }else if(hour < 12){
+                if(hour < 10){
+                    hour = "0"+ hour;
+                }
+                end = "AM";
+            }
+            console.log(hour + ":" + min + end)
+            return hour + ":" + min + end;
+       
           })
         }, function(){
           if(!this.state.availableAppointments.length){
@@ -34,12 +55,22 @@ class AppointmentForm extends Component {
   }
   handleSubmit(e){
     console.log(Object.keys(e.target));
+    let {date, time, name, phone} = e.target;
     e.preventDefault();
+    let h = parseInt(time.value.slice(0,2));
+    let m = time.value.slice(3, 5);
+    if(h < 12){
+      h = h +12;
+    }
+    if(h < 10){
+      h = "0" + h;
+    }
+    let convertedTime = h + ":" + m + ":00"; 
     axios.post("/appointments", {
-      date: e.target.date.value,
-      time: e.target.time.value,
-      name: e.target.name.value,
-      phone: e.target.phone.value
+      date: date.value,
+      time: convertedTime,
+      name: name.value,
+      phone: phone.value
     },
     {
       headers:{

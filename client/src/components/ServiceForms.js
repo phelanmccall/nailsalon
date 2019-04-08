@@ -1,17 +1,16 @@
 import React, {Component} from "react";
-import axios from "axios";
 
 class ServiceForms extends Component {
 
     render() {
         return (
-           <span id="updateServicesForm">
+           <span id="updateServicesForm" className="updateForm">
                 <form className="service" onSubmit={this.props.addService}>
                         <label>Add Service</label><br />
-                        <label>Service</label>
-                        <input name="service" required></input>
-                        <label>Price</label>
-                        <input name="price" required></input>
+                        <label>Service</label><br />
+                        <input name="service" required></input><br />
+                        <label>Price</label><br />
+                        <input name="price" required></input><br />
                         <input name="submit" type="submit" value="Submit" />
                     </form>
                     <form className="service" onSubmit={this.props.updateService}>
@@ -26,7 +25,7 @@ class ServiceForms extends Component {
                                 })
                             }
                         </select><br />
-                        <label>Price</label>
+                        <label>Price</label><br />
                         <input name="price" required></input><br />
                         <input name="submit" type="submit" value="Update" />
                     </form>

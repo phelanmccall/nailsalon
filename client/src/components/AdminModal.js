@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import AdminHeader from "../components/AdminHeader";
 import AdminControls from "../components/AdminControls";
 
 class AdminModal extends Component {
@@ -58,7 +57,7 @@ class AdminModal extends Component {
         }
     }
     render() {
-
+        console.log(this.props.getBusiness)
         return (
             <div className="modal" id="adminModal">
 
@@ -66,11 +65,9 @@ class AdminModal extends Component {
                     <button className="close" onClick={(e) => {
                         e.target.parentNode.parentNode.style.display = "none";
                     }}>&times;</button>
+                   
                     {
-                        this.state.user ?  <AdminHeader logout={this.logout}/> : <span></span>
-                    }
-                    {
-                        this.state.user ? <AdminControls /> : 
+                        this.state.user ? <AdminControls logout={this.logout} getBusiness={this.props.getBusiness}/> : 
                         <form id="loginForm" >
                             {this.state.err ? <span className="alertText">There was an error</span> : <span></span>}
                             <br/>
