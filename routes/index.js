@@ -19,6 +19,7 @@ router.use(function(req, res, next) {
       next();
       break;
     case "/services":
+    case "/info":
     console.log(req.method)
     if(req.method === "GET" || req.isAuthenticated()){
       next();
@@ -91,7 +92,7 @@ router.route("/bookings/:date")
           res.send("Successfully updated booking.");
         })
         .catch((err) => {
-          res.send(err);
+          res.send("Error updating booking.");
         })
     }
   })
@@ -119,30 +120,35 @@ router.route("/bookings")
             time: req.body.time
           }
         }).then((dbBookings)=>{
+          console.log(dbBookings);
           if(dbBookings.length){  
             var times = dbBookings.filter((val, key)=>{
-              return !this.has(val.dataValues.time);
-            }, req.body.times);
-
+              return !req.body.time.includes(val.dataValues.time);
+            });
+            console.log(times);
             db.Bookings.bulkCreate(times.map((val, key)=>{
               return {date: req.body.date, time: val}
             })).then(function(){
               res.send("Successfully created bookings.");
             })
             .catch((err)=>{
+              console.log(err);
               res.send("Error creating bookings");
             })
           }else{
             db.Bookings.bulkCreate(req.body.time.map((val, key)=>{
               return {date: req.body.date, time: val}
             })).then(function(){
-              res.send("Successfully created bookings.");
+              res.send("Successfully created booking.");
             })
             .catch((err)=>{
+              console.log(err);
               res.send("Error creating bookings");
             })
           }
         
+        }).catch((err)=>{
+          console.log("Error creating bookings.");
         })
       }else if(req.body.time && req.body.time.length === 1){
         db.Bookings.findOrCreate({
@@ -199,10 +205,10 @@ router.route("/services")
       }
     })
       .then((dbService) => {
-        res.send(dbService);
+        res.send("Successfully created service.");
       })
       .catch((err) => {
-        res.send(err)
+        res.send("Error creating service.")
       })
   })
   .put(function (req, res) {
@@ -214,7 +220,12 @@ router.route("/services")
         service: req.body.service
       }
     }
-    )
+    ).then((dbService)=>{
+      res.send("Successfully updated service.")
+    })
+    .catch((err)=>{
+      res.send("Error updating service.")
+    })
   })
 
 router.route("/services/:name").delete(function (req, res) {
@@ -223,10 +234,10 @@ router.route("/services/:name").delete(function (req, res) {
       service: req.params.name
     }
   }).then(() => {
-    res.send("OK");
+    res.send("Successfully deleted service.");
   })
     .catch((err) => {
-      res.send(err);
+      res.send("Error deleting service.");
     })
 })
 
@@ -239,7 +250,7 @@ router.route("/appointments/:date").get(function (req, res) {
     ,
     where: {
       date: req.params.date,
-      booked: 0
+      booked: false
     }
   }).then(function (dbBookings) {
     if(dbBookings){
@@ -258,7 +269,7 @@ router.route("/appointments")
 })
 .put(function(req, res){
   console.log(req.body)
-  if (req.body && req.body.delete != true) {
+  if (req.body && req.body.delete !== true) {
     db.Appointment.update({
       booked: db.Sequelize.literal('NOT booked')
     },
@@ -283,7 +294,7 @@ router.route("/appointments")
         })
       })
       .catch((err) => {
-        res.send(err);
+        res.send("Error confirming appointment.");
       })
   }else{
     db.Appointment.destroy({
@@ -303,11 +314,11 @@ router.route("/appointments")
             time: req.body.time
           }
         }).then((dbBooking) => {
-          res.send("Successfully confirmed appointment");
+          res.send("Successfully deleted appointment");
         })
       })
       .catch((err) => {
-        res.send(err);
+        res.send("Error deleted appointment");
       })
   }
 })
@@ -326,6 +337,79 @@ router.route("/appointments")
       });
     });
 });
+
+router.route("/info")
+  .get(function(req, res){
+    db.Business.findOne({})
+      .then((dbBusiness)=>{
+        
+        if(dbBusiness){
+          res.send(dbBusiness.dataValues);
+        }
+      })
+      .catch((err)=>{
+        console.log("ASDASDASDASDASDASDASDAS " + err);
+        res.send({})
+      })
+  })
+  .put(function(req, res){
+    db.Business.findOne({
+      where: {
+        AuthId: req.user.id
+      }
+    }).then((dbBusiness)=>{
+      console.log(req.body)
+      let newInfo = {
+        authId: req.user.id
+      };
+        const { address, phone, button1, button2, button3, api } = req.body;
+        if(address){
+          newInfo.address = address;
+        }
+        if(phone){
+          newInfo.phone = phone;
+        }
+        if(button1){
+          newInfo.button1 = button1;
+        }
+        if(button2){
+          newInfo.button2 = button2;
+        }
+        if(button3){
+          newInfo.button3 = button3;
+        }
+        if(api){
+          newInfo.api = api;
+        }
+      if(dbBusiness){
+        db.Business.update(newInfo,
+          {
+          where: {
+            AuthId: req.user.id
+          }
+        })
+        .then((dbBusiness)=>{
+          res.send("Business successfully updated!")
+        })
+        .catch((err)=>{
+          console.log("XDXDXXXXDXDXDXDXDDXDXX " + err);
+          res.send("Error updating business.");
+        })
+      }else{
+        db.Business.create(newInfo)
+        .then((dbBusiness)=>{
+          res.send("Business successfully updated.")
+        })
+        .catch((err)=>{
+          console.log("XDXDXXXXDXDXDXDXDDXDXX " + err);
+          res.send("Error updating business.");
+        })
+      }
+    }).catch((err)=>{
+      console.log("cscdassaxascascascascsaca " + err);
+      res.send("Error updating business.");
+    })
+  })
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {

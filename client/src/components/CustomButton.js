@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class CustomButton extends Component {
 
     render(){
-        console.log(this.props.onClick)
         return (
             
             <button id={this.props.id} onClick={this.props.onClick}>

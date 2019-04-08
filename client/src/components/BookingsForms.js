@@ -1,23 +1,39 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 class BookingsForms extends Component {
-
+    timesArr = [
+        "09:00AM",
+        "09:30AM",
+        "10:00AM",
+        "10:30AM",
+        "11:00AM",
+        "11:30AM",
+        "12:00PM",
+        "12:30PM",
+        "01:00PM",
+        "01:30PM",
+        "02:00PM",
+        "02:30PM",
+        "03:00PM",
+        "03:30PM",
+        "04:00PM",
+        "04:30PM",
+    ];
     render() {
         return (
-            <span>
+            <span id="updateBookingsForm" className="updateForm">
                 <form className="booking" onSubmit={this.props.addBooking}>
                     <label>Add a Booking</label><br />
                     <label htmlFor="date">Date: </label>
                     <input type="date" name="date" min={new Date().toISOString().split("T")[0]} required /><br />
                     <label>Check All</label><input type="checkbox" onClick={function (e) {
-                        var boxes = document.querySelectorAll("input[name=addBook");
+                        var boxes = document.querySelectorAll("input[name=addBook]");
                         for (let i = 0; i < boxes.length; i++) {
                             boxes[i].checked = e.target.checked
                         }
                     }} defaultChecked></input><br />
                     {
-                        this.props.timesArr.map((val, key) => {
+                        this.timesArr.map((val, key) => {
                             return <span key={key}><label>{val}</label><input type="checkbox" name="addBook" value={val} defaultChecked></input></span>
                         })
                     }
@@ -29,14 +45,14 @@ class BookingsForms extends Component {
                     <label htmlFor="date">Date: </label>
                     <input type="date" name="date" onChange={this.props.getBookings} required /><br />
                     <label>Check All</label><input type="checkbox" onClick={function (e) {
-                        var boxes = document.querySelectorAll("input[name=deleteBook");
+                        var boxes = document.querySelectorAll("input[name=deleteBook]");
                         for (let i = 0; i < boxes.length; i++) {
                             boxes[i].checked = e.target.checked
                         }
                     }} defaultChecked></input><br />
                     {
                         this.props.bookings.map((val, key) => {
-                            return <span key={key}><label>{val.time}</label><input type="checkbox" name="deleteBook" value={val.time} defaultChecked></input></span>
+                            return <span key={key}><label>{val}</label><input type="checkbox" name="deleteBook" value={val} defaultChecked></input></span>
                         })
                     }
                     <br />

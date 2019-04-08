@@ -1,12 +1,48 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 class AdminHeader extends Component {
 
+    toggleModal = (e) => {
+        let element = document.getElementById("update" + e.target.value + "Form");
+        // let buttons = document.getElementsByClassName("headerButton");
+        let forms = document.getElementsByClassName("updateForm");
+        for (let i = 0; i < forms.length; i++) {
+            forms[i].style.display = "none";
+        }
+        // for (let i = 0; i < buttons.length; i++) {
+        //     buttons[i].style.background = "grey";
+
+        // }
+        console.log(e.target);
+        console.log(element)
+        element.style.display = "contents";
+        this.props.clearMessage();
+        
+
+
+
+    }
     render() {
         return (
-            <span>
+            <div>
                 <button className="logoutBtn" onClick={this.props.logout}>Logout</button>
-            </span>
+                <select defaultValue={"Appointments"} onChange={this.toggleModal}>
+                    <option>
+                        Admin
+               </option>
+                    <option>
+                        Appointments
+                </option>
+                    <option>
+                        Bookings
+                </option>
+                    <option>
+                        Services
+                </option>
+                </select>
+
+
+            </div>
         );
     }
 

@@ -9,9 +9,9 @@ body {
   color: #777777;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  background-image: url("./assets/images/silver.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url("./assets/images/gravel.png");
+  background-size: auto;
+  background-repeat: repeat;
   background-attachment: scroll;
   font-size: large;
   min-height: 100%;
@@ -50,38 +50,60 @@ button:active {
   transform: scale(0.99);
 }
 
-#adminControl{
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
+/* #updateServiceForm, #updateBookingsForm{
+  display: contents;  
+} */
+.updateForm{
+  display: none;
 }
-#adminControl span{
+.headerButton{
+  padding: 1%;
+  border: 1px solid black;
+  background: grey;
+}
+#updateAppointmentsForm{
   display: contents;
 }
-#adminControl .service {
-  flex: 0 0 27.333333%;
-max-width: 27.333333%;
+
+#adminControl{
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
+  padding: 15px;
+}
+#adminControl .admin {
+  margin: 0 auto;
+  display: grid;
   position: relative;
   height: auto;
-  width: 100%;
+  width: auto;
   padding-left: 15px;
   padding-right: 15px;
+}
+
+
+#adminControl .service {
+  position: relative;
+  height: auto;
+  width: auto;
+  margin: 0 auto;
+  padding: 1vh 2vw;
 }
 
 #adminControl .booking {
-  flex: 0 0 43%;
-  max-width: 43%;
+
   position: relative;
   height: auto;
-  width: 100%;
-  padding: 15px;
+  width: 40%;
+  padding: 1vh 2vw;
+  display: inline-table;
 }
 
 #adminControl table{
+
   height:auto;
-  width: 100%;
+  width: auto;
 }
 
 header {
@@ -91,19 +113,19 @@ header {
   height: auto;
   max-height: 10vh;
   justify-content: center; 
-  background-color: white;
+  background-color: #666;
+  color: white;
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: small;
 }
 #address {  
-  color: #666;
   margin: 0 auto;
 }
 
 #phone{
-  color: #777;
+  color: inherit;
   text-decoration: none;
-  margin: 0 auto;
+  margin: 1%;
 }
 #logo {
   margin: 0 auto;
@@ -166,6 +188,7 @@ section div{
 }
 
 .alertText {
+  margin: 2%;
   color: red;
 }
 
@@ -173,7 +196,7 @@ section div{
 
   position: relative;
   text-decoration: none;
-  animation: fade 2s, slide 2s;
+  animation: fade 1s, slide 2s;
 
 }
 
@@ -278,7 +301,10 @@ section div{
   text-align: left;
   color: black;
   background-color: white;
-  
+  background-image: url("./assets/images/silver.jpg");
+  background-size: auto;
+  background-repeat: repeat;
+  background-attachment: scroll;
   height: auto;
   width: 88vw;
   margin: 0 auto;
@@ -340,12 +366,20 @@ section div{
 .modal-content {
   background-color: #fefefe;
   margin: 15vh auto; /* 15% from the top and centered */
-  padding: 20px;
+  padding: 2vh 2vw;
   border: 1px solid #888;
-  width: 50vw; /* Could be more or less, depending on screen size */  
+  width: auto;  
 
 }
 
+@media only screen and (min-width: 700px) {
+
+
+
+  .modal-content {
+    width: 50vw;
+  }
+}
 .modal-content table {
   margin: 0 auto;
 }
@@ -380,4 +414,8 @@ section div{
   display: block;
   background: #aaa;
   border: 1px solid black;
+}
+
+#loginForm{
+  display: grid
 }
