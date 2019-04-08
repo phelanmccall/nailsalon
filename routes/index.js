@@ -25,6 +25,7 @@ router.use(function(req, res, next) {
       next();
       break;
     }else{
+      res.redirect("/");
       break;
     }
     case "/appointments":
@@ -41,6 +42,7 @@ router.use(function(req, res, next) {
       }else{
         next();
       }
+      
       break;
   }
   

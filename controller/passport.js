@@ -60,6 +60,10 @@ passport.use(new LocalStrategy(
           } else {
             done(null, null);
           }
+        }).catch((err)=>{
+          console.log(err);
+          done(null, null);
+
         })
       }else{
         db.Auths.findOne({
@@ -77,10 +81,16 @@ passport.use(new LocalStrategy(
             done(null, null);
           }
         })
+        .catch((err)=>{
+          console.log(err);
+          done(null, null);
+
+        })
       }
 
 
-      }).catch(function (err) {
+      })
+      .catch(function (err) {
         console.log(err);
         done(null, null);
       });
