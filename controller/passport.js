@@ -46,7 +46,8 @@ passport.use(new LocalStrategy(
   function (username, password, done) {
     db.Auths.findAll({})
     .then((dbAuths)=>{
-      if(dbAuths.length === 0){
+      console.log(dbAuths)
+      if(!dbAuths){
         db.Auths.create({
           username: username,
           password: bcrypt.hashSync(password)
