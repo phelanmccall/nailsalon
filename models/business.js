@@ -3,26 +3,6 @@ module.exports = (sequelize, Datatypes) => {
     const Business = sequelize.define(
       "Business",
       {
-<<<<<<< HEAD
-        name: Datatypes.STRING,
-        address: Datatypes.STRING,
-        phone: Datatypes.STRING,
-        createdAt: {
-          type: Datatypes.DATE,
-          defaultValue: Datatypes.NOW
-        },
-        updatedAt: {
-          type: Datatypes.DATE,
-          defaultValue: Datatypes.NOW
-        }
-      }
-      
-      
-      
-    );
-
-  
-=======
         address: Datatypes.STRING,
         phone: Datatypes.STRING,
         button1: Datatypes.STRING,
@@ -34,7 +14,6 @@ module.exports = (sequelize, Datatypes) => {
       
     );
  
->>>>>>> 4d1567c56fd929cca6d8bce901e938a9a3fa34bf
   
     return Business;
   };
