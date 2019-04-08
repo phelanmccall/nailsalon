@@ -5,7 +5,7 @@ class ServiceForms extends Component {
 
     render() {
         return (
-           <span>
+           <span id="updateServicesForm">
                 <form className="service" onSubmit={this.props.addService}>
                         <label>Add Service</label><br />
                         <label>Service</label>

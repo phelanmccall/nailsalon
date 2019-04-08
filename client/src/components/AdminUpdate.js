@@ -5,9 +5,11 @@ class AdminUpdate extends Component {
 
     render() {
         return (
-            <form>
+           <span id="updateAdminForm">
+                <form>
                 
-            </form>
+                </form>
+           </span>
         );
     }
 

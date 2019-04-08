@@ -5,7 +5,7 @@ class BookingsForms extends Component {
 
     render() {
         return (
-            <span>
+            <span id="updateBookingsForm">
                 <form className="booking" onSubmit={this.props.addBooking}>
                     <label>Add a Booking</label><br />
                     <label htmlFor="date">Date: </label>
