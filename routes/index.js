@@ -127,8 +127,9 @@ router.route("/bookings")
         }).then((dbBookings)=>{
           console.log(dbBookings);
           if(dbBookings.length){  
-            var times = dbBookings.filter((val, key)=>{
-              return !req.body.time.includes(val.dataValues.time);
+            var books = dbBookings.map((val)=> val.dataValues.time);
+            var times = req.body.time.filter((val, key)=>{
+              return !books.includes(val);
             });
             console.log(times);
             db.Bookings.bulkCreate(times.map((val, key)=>{

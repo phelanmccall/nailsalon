@@ -29,14 +29,15 @@ class AdminContols extends Component {
     convertTime = (val, key) => {
         let hour = parseInt(val.value.slice(0, 2));
         let min = val.value.slice(3, 5);
-        if (hour < 5) {
+        let end = val.value.slice(5);
+
+        if(end === "PM" && hour < 12){
             hour = hour + 12;
-        } else if (hour > 12) {
-            hour = hour - 12;
         }
         if (hour < 10) {
             hour = "0" + hour;
         }
+
         console.log(hour + ":" + min)
         return hour + ":" + min + ":00";
     }
@@ -153,27 +154,27 @@ class AdminContols extends Component {
 
     }
 
-    confirmBookings = (e) => {
-        e.preventDefault();
-        var times = Array.from(document.querySelectorAll('input[name=confirmBook]:checked'), (val, key) => {
-            return val.value;
-        });
-        console.log(times);
-        if (times.length) {
-            axios.put(`/bookings/${e.target.date.value}`,
-                { time: times }).then((res) => {
+    // confirmBookings = (e) => {
+    //     e.preventDefault();
+    //     var times = Array.from(document.querySelectorAll('input[name=confirmBook]:checked'), (val, key) => {
+    //         return val.value;
+    //     });
+    //     console.log(times);
+    //     if (times.length) {
+    //         axios.put(`/bookings/${e.target.date.value}`,
+    //             { time: times }).then((res) => {
 
-                    this.setState({
-                        booked: [],
-                        message: res.data
-                    }, this.resetMessage);
+    //                 this.setState({
+    //                     booked: [],
+    //                     message: res.data
+    //                 }, this.resetMessage);
 
 
 
-                })
-        }
-        e.target.reset();
-    }
+    //             })
+    //     }
+    //     e.target.reset();
+    // }
 
     addBooking = (e) => {
         e.preventDefault();

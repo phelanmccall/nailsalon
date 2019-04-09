@@ -59,12 +59,15 @@ class AppointmentForm extends Component {
     e.preventDefault();
     let h = parseInt(time.value.slice(0,2));
     let m = time.value.slice(3, 5);
-    if(h < 12){
-      h = h +12;
+    let end = time.value.slice(5);
+    if(end === "PM" && h < 12){
+      h = h + 12;
+
     }
     if(h < 10){
       h = "0" + h;
     }
+    
     let convertedTime = h + ":" + m + ":00"; 
     axios.post("/appointments", {
       date: date.value,

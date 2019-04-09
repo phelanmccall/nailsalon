@@ -25,18 +25,15 @@ class AppointmentAdmin extends Component {
                                 let m = val.time.slice(3,5);
                                 let end;
                                 if(h > 12){
-                                    h = h -12;
-                                    if(h < 10){
-                                        h = "0"+h;
-                                    }
-                                    end = "AM";
-                                }else{
-                                    if(h < 10){
-                                        h = "0"+h;
-                                    }
                                     end = "PM";
+                                    h -= 12;
+                                }else{
+                                    end = "AM";
                                 }
-
+                                if(h < 10){
+                                    h = "0" + h;
+                                }
+                                 
                                 return <tr key={key}>
                                     <td>{val.name}</td>
                                     <td>{val.phone}</td>
