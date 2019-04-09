@@ -7,7 +7,9 @@ class AdminUpdate extends Component {
         return (
 
             <span id="updateAdminForm" className="updateForm">
-                <form className="admin"  onSubmit={this.props.updateBusiness}>
+                <form className="admin"  onSubmit={function(e){
+                    console.log("ASDASDASDASD")
+                }}>
                     <label>Address: </label>
                     <input name="address"></input><br />
                     <label>Phone: </label>
@@ -20,7 +22,7 @@ class AdminUpdate extends Component {
                     <input name="button3"></input><br />
                     <label>API: </label>
                     <input name="api"></input><br />
-                    <input type="submit" value="Submit"></input>
+                    <input type="submit" name="submit" value="Submit"></input>
                 </form>
             </span>
         );

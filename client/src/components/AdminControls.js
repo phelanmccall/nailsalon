@@ -297,7 +297,7 @@ class AdminContols extends Component {
 
     updateBusiness = (e) => {
         e.preventDefault();
-
+        console.log("ASDASDADASDASDASKERKAEGKWOK")
         const { address, phone , button1, button2, api} = e.target;
         let newInfo = {
             address: address.value,

@@ -118,7 +118,7 @@ class AppointmentForm extends Component {
             })
           }</select> <br/>
             
-            <input type="submit" value="Submit" />
+            <input type="submit" name="submit" value="Submit" />
           </form>
         </div>
       </div>

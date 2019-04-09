@@ -24,15 +24,6 @@ class App extends Component {
   }
 
   componentDidMount(){
-    let modals = document.getElementsByClassName("modal");
-    for(let i = 0 ; i < modals.length; i++){
-      modals[i].onclick = function(e){
-        e.preventDefault();
-        if(e.target.className === "modal"){
-          e.target.style.display = "none";
-        }
-      }
-    }
 
     this.getBusiness();
   }
