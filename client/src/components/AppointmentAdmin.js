@@ -20,7 +20,6 @@ class AppointmentAdmin extends Component {
                         {
 
                             this.props.appointments.map((val, key) => {
-                                console.log(val)
                                 let h = parseInt(val.time.slice(0,2));
                                 let m = val.time.slice(3,5);
                                 let end;

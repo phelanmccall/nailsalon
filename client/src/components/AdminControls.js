@@ -38,24 +38,25 @@ class AdminContols extends Component {
             hour = "0" + hour;
         }
 
-        console.log(hour + ":" + min)
         return hour + ":" + min + ":00";
     }
 
     getAppointments = (e) => {
         axios.get("/appointments").then((res) => {
           
-                console.log(res.data);
                 this.setState({
                     appointments: res.data
                 })
             
+        }).catch((err)=>{
+            this.setState({
+                message: err
+            })
         })
     }
 
     confirmAppointment = (e) => {
         e.preventDefault();
-        console.log(e.target.attributes);
 
         axios.put("/appointments",
             {
@@ -65,7 +66,6 @@ class AdminContols extends Component {
                 time: e.target.attributes["data-time"].value,
                 delete: false
             }).then((res) => {
-                console.log(res.data)
                 this.getAppointments();
 
                 this.setState({
@@ -79,7 +79,6 @@ class AdminContols extends Component {
 
     deleteAppointment = (e) => {
         e.preventDefault();
-        console.log(e.target.attributes);
 
         axios.put("/appointments",
             {
@@ -89,7 +88,6 @@ class AdminContols extends Component {
                 time: e.target.attributes["data-time"].value,
                 delete: true
             }).then((res) => {
-                console.log(res.data)
                 this.getAppointments();
 
                 this.setState({
@@ -120,7 +118,6 @@ class AdminContols extends Component {
     getBookings = (e) => {
         e.preventDefault();
         axios.get(`/bookings/${e.target.value}`).then((response) => {
-            console.log(response.data);
             let newData = response.data.map((val, key) => {
                 return val.time;
             }).map((val, key) => {
@@ -141,11 +138,9 @@ class AdminContols extends Component {
                     }
                     end = "AM";
                 }
-                console.log(hour + ":" + min + end)
                 return hour + ":" + min + end;
             })
 
-            console.log(newData);
 
             this.setState({
                 bookings: newData
@@ -154,32 +149,10 @@ class AdminContols extends Component {
 
     }
 
-    // confirmBookings = (e) => {
-    //     e.preventDefault();
-    //     var times = Array.from(document.querySelectorAll('input[name=confirmBook]:checked'), (val, key) => {
-    //         return val.value;
-    //     });
-    //     console.log(times);
-    //     if (times.length) {
-    //         axios.put(`/bookings/${e.target.date.value}`,
-    //             { time: times }).then((res) => {
-
-    //                 this.setState({
-    //                     booked: [],
-    //                     message: res.data
-    //                 }, this.resetMessage);
-
-
-
-    //             })
-    //     }
-    //     e.target.reset();
-    // }
-
+    
     addBooking = (e) => {
         e.preventDefault();
         var times = Array.from(document.querySelectorAll('input[name=addBook]:checked'), this.convertTime);
-        console.log(times);
         if (times.length) {
             axios.post(`/bookings`, {
                 date: e.target.date.value,
@@ -204,7 +177,6 @@ class AdminContols extends Component {
     deleteBooking = (e) => {
         e.preventDefault();
         var times = Array.from(document.querySelectorAll('input[name=deleteBook]:checked'), this.convertTime);
-        console.log(times);
         if (times.length) {
             axios.put(`/bookings`, {
                 date: e.target.date.value,
@@ -232,12 +204,14 @@ class AdminContols extends Component {
             }
         }).catch((err) => {
             console.log(err);
+            this.setState({
+                message: err
+            }, this.resetMessage)
         })
     }
 
     addService = (e) => {
         e.preventDefault();
-        console.log(e.target.service.value)
         axios.post("/services", {
             service: e.target.service.value,
             price: e.target.price.value
@@ -289,20 +263,23 @@ class AdminContols extends Component {
     updateService = (e) => {
         e.preventDefault();
         let { service, price } = e.target;
-        console.log(service + " " + price);
         axios.put("/services", { service: service.value, price: price.value }).then((res) => {
             this.setState({
                 message: res.data
             }, this.resetMessage)
             this.getServices();
 
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                message: err
+            }, this.resetMessage)
         })
         e.target.reset();
     }
 
     updateBusiness = (e) => {
         e.preventDefault();
-        console.log("ASDASDADASDASDASKERKAEGKWOK")
         const { address, phone , button1, button2, api} = e.target;
         let newInfo = {
             address: address.value,
@@ -311,9 +288,7 @@ class AdminContols extends Component {
             button2: button2.value,
             api: api.value
         }
-        console.log(newInfo)
         axios.put("/info", newInfo).then((res) => {
-            console.log(this.props.getBusiness)
             this.setState({
                 message: res.data
             }, this.resetMessage)

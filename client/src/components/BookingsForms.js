@@ -58,28 +58,7 @@ class BookingsForms extends Component {
                     <br />
                     <input type="submit" name="submit" value="Delete Booking(s)"></input>
                 </form>
-                {/* <form onSubmit={this.props.confirmBookings}>
-                        <label>Confirm Bookings</label>
-                        <label>Date</label>
-                        <input type="date" name="date" min={new Date().toISOString().split("T")[0]} onChange={this.props.getBooked} required /><br />
-                        <label>Check All</label><input type="checkbox" onClick={function(e){
-                            var boxes = document.querySelectorAll("input[name=confirmBook");
-                            for(let i = 0; i < boxes.length; i++){
-                                boxes[i].checked = e.target.checked
-                            }
-                        }} defaultChecked></input>
-                        {
-                            this.props.booked.reduce((array, val, key) => {
-                                console.log(val.booked);
-                                if(!val.booked){
-                                    array.push(<span key={key}><label>{val.time}</label><input type="checkbox" name="confirmBook" value={val.time} defaultChecked></input></span>)
-                                }
-
-                                return array;
-                            }, [])
-                        }
-                        <input type="submit" value="submit"></input>
-                    </form> */}
+           
             </span>
         );
     }

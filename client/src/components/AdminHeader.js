@@ -9,12 +9,7 @@ class AdminHeader extends Component {
         for (let i = 0; i < forms.length; i++) {
             forms[i].style.display = "none";
         }
-        // for (let i = 0; i < buttons.length; i++) {
-        //     buttons[i].style.background = "grey";
-
-        // }
-        console.log(e.target);
-        console.log(element)
+        
         element.style.display = "contents";
         this.props.clearMessage();
         

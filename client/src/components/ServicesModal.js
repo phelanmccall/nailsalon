@@ -6,7 +6,6 @@ class ServicesModal extends Component {
     }
     componentDidMount() {   
         axios.get("/services").then((response)=>{
-            console.log(response.data)
             if(typeof response.data === "object"){
                 this.setState({
                     services: response.data

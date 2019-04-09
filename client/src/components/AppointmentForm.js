@@ -11,14 +11,12 @@ class AppointmentForm extends Component {
 
   }
   handleChangeDate = (e) =>{
-    console.log(e.target.value)
     axios.get("/appointments/"+ e.target.value, {
       headers:{
         Accept: "data"
       }
     })
       .then((res) => {
-        console.log(res.data);
         this.setState({
           availableAppointments: res.data.map(function(value){
             return value.time;
@@ -40,7 +38,6 @@ class AppointmentForm extends Component {
                 }
                 end = "AM";
             }
-            console.log(hour + ":" + min + end)
             return hour + ":" + min + end;
        
           })
@@ -54,7 +51,6 @@ class AppointmentForm extends Component {
       })
   }
   handleSubmit(e){
-    console.log(Object.keys(e.target));
     let {date, time, name, phone} = e.target;
     e.preventDefault();
     let h = parseInt(time.value.slice(0,2));
@@ -80,7 +76,6 @@ class AppointmentForm extends Component {
         Accept: "text/plain; charset=utf-8"
       }
     }).then(function(res){
-      console.log(document.getElementById("apptStatus"));
       
       document.getElementById("apptStatus").innerHTML = res.data;
     }).catch(function(err){

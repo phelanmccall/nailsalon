@@ -33,16 +33,13 @@ class App extends Component {
   }
 
   getBusiness = () => {
-    console.log("GET");
 
     axios.get("/info").then((res)=>{
-      console.log(res.data);
       if(res.data){
         this.setState({
           business: res.data
         },
         function(){
-          console.log(this.state.business);
         })
       }
     })
@@ -50,8 +47,7 @@ class App extends Component {
 
   handleClick = (e) => {
    if(document.getElementById("adminModal").style.display !== "block"){
-    console.log(e.target.id);
-    console.log(e.target.parentNode)
+ 
     var target;
     if(e.target.id){
       target = e.target.id;
@@ -59,15 +55,12 @@ class App extends Component {
       target = e.target.alt;
     }else{
       target = e.target.parentNode.id;
-      console.log(e.target);
     }
-    console.log(document.getElementById(target+"Modal"))
     document.getElementById(target+"Modal").style.display = document.getElementById(target + "Modal").style.display === "block" ? "none" : "block";
   
    }
   }
   render() {
-    console.log(this.state.business)
     return (
       <div className="App">
      

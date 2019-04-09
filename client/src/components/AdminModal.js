@@ -9,7 +9,6 @@ class AdminModal extends Component {
     }
     componentDidMount() {
         axios.get("/login").then((response) => {
-            console.log(response.data)
             if (response.data.username) {
                 this.setState({
                     user: response.data
@@ -37,7 +36,6 @@ class AdminModal extends Component {
                 username: username,
                 password: password
             }).then((response) => {
-                console.log(response.data)
                 if (response.data.username  ) {
                     this.setState({
                         user: response.data,
@@ -57,7 +55,6 @@ class AdminModal extends Component {
         }
     }
     render() {
-        console.log(this.props.getBusiness)
         return (
             <div className="modal" id="adminModal">
 
