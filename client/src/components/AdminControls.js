@@ -65,13 +65,14 @@ class AdminContols extends Component {
                 delete: false
             }).then((res) => {
                 console.log(res.data)
+                this.getAppointments();
+
                 this.setState({
                     message: res.data
                 }, () => {
                     
                     this.resetMessage();
                 })
-                this.getAppointments();
             })
     }
 
@@ -88,12 +89,13 @@ class AdminContols extends Component {
                 delete: true
             }).then((res) => {
                 console.log(res.data)
+                this.getAppointments();
+
                 this.setState({
                     message: res.data
                 }, () => {
                     this.resetMessage();
                 })
-                this.getAppointments();
 
             })
     }
