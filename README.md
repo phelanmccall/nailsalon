@@ -1,7 +1,7 @@
 # Nailsalon
 
 ![Nailsalon on mobile](./images/mobileExample.png)
-### Nailsalon is a customizable website.
+
 
 ## Features
 
@@ -66,3 +66,14 @@ API is where you'll enter your Google API key. This is needed for directions.
 
 ![appt modal](./images/apptExample.png)  
 
+### Nailsalon is a customizable website.
+
+You can swap out key images for you own.
+
+go to /client/src/assets/images and replace services.png, appoitnments.png or logo.png with your own images. Just keep the file names as they are and try to keep the ratio similar.
+
+## Examples
+
+![alternative images 1](./images/altImages.png)
+
+![alternative images 2](./images/altImages2.png)
