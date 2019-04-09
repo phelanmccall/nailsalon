@@ -199,7 +199,7 @@ class AdminContols extends Component {
     deleteBooking = (e) => {
         e.preventDefault();
         var times = Array.from(document.querySelectorAll('input[name=deleteBook]:checked'), this.convertTime);
-
+        console.log(times);
         if (times.length) {
             axios.put(`/bookings`, {
                 date: e.target.date.value,
@@ -284,7 +284,7 @@ class AdminContols extends Component {
     updateService = (e) => {
         e.preventDefault();
         let { service, price } = e.target;
-
+        console.log(service + " " + price);
         axios.put("/services", { service: service.value, price: price.value }).then((res) => {
             this.setState({
                 message: res.data
@@ -306,6 +306,7 @@ class AdminContols extends Component {
             button2: button2.value,
             api: api.value
         }
+        console.log(newInfo)
         axios.put("/info", newInfo).then((res) => {
             console.log(this.props.getBusiness)
             this.setState({

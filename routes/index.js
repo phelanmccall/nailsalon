@@ -57,10 +57,11 @@ router.route("/login")
   }
 })
 .post(passport.authenticate('local'), function (req, res) {
-  console.log("WHOOPSY DOOPSY")
   if (req.isAuthenticated()) {
     res.send({username: req.user.username});
   } else {
+    console.log("WHOOPSY DOOPSY")
+
     res.redirect("/");
   }
 });
