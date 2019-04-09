@@ -313,6 +313,10 @@ class AdminContols extends Component {
             }, this.resetMessage)
             this.props.getBusiness();
 
+        }).catch((err)=>{
+            this.setState({
+                message: err
+            }, this.resetMessage);
         })
         e.target.reset();
 

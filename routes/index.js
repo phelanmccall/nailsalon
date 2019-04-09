@@ -349,6 +349,8 @@ router.route("/info")
         console.log(dbBusiness);
         if(dbBusiness){
           res.send(dbBusiness.dataValues);
+        }else{
+          res.send({});
         }
       })
       .catch((err)=>{
@@ -406,12 +408,12 @@ router.route("/info")
         })
         .catch((err)=>{
           console.log("XDXDXXXXDXDXDXDXDDXDXX " + err);
-          res.send("Error updating business.");
+          res.send("Error creating business.");
         })
       }
     }).catch((err)=>{
       console.log("cscdassaxascascascascsaca " + err);
-      res.send("Error updating business.");
+      res.send("Error finding business.");
     })
   })
 
