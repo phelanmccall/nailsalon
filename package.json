@@ -11,7 +11,7 @@
     "heroku-prebuild": "cd client && npm install",
     "heroku-postbuild": "npm run build"
   },
-  "author": "",
+  "author": "Phelan McCall",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",

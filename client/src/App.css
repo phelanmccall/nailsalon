@@ -129,10 +129,10 @@ header {
 }
 #logo {
   margin: 0 auto;
-  height: 100%;
+  height: auto;
+  width: auto;
   max-height: 10vh;
   max-width: 100%;
-  width: auto;
 }
 
 p {
