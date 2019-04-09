@@ -43,12 +43,12 @@ class AdminContols extends Component {
 
     getAppointments = (e) => {
         axios.get("/appointments").then((res) => {
-            if (res.data.length && typeof res.data === "object") {
+          
                 console.log(res.data);
                 this.setState({
                     appointments: res.data
                 })
-            }
+            
         })
     }
 
@@ -68,9 +68,10 @@ class AdminContols extends Component {
                 this.setState({
                     message: res.data
                 }, () => {
-                    this.getAppointments();
+                    
                     this.resetMessage();
                 })
+                this.getAppointments();
             })
     }
 
@@ -90,9 +91,10 @@ class AdminContols extends Component {
                 this.setState({
                     message: res.data
                 }, () => {
-                    this.getAppointments();
                     this.resetMessage();
                 })
+                this.getAppointments();
+
             })
     }
 

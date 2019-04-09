@@ -286,19 +286,31 @@ router.route("/appointments")
         time: req.body.time
       }
     }
-      ).then((dbAppointments) => {
-        db.Bookings.update({
-          booked: db.Sequelize.literal('NOT booked')
-        },{
-          where:{
-            date: req.body.date,
-            time: req.body.time
-          }
-        }).then((dbBooking) => {
-          res.send("Successfully confirmed appointment");
+      ).then(() => {
+        db.Appointment.findOne({
+          where:{}
+        }).then((dbAppointment)=>{
+          db.Bookings.update({
+            booked: dbAppointment.dataValues.booked
+          },{
+            where:{
+              date: req.body.date,
+              time: req.body.time,
+              
+            }
+          }).then((dbBooking) => {
+            res.send("Successfully updated appointment");
+          }).catch((err)=>{
+            console.log(err);
+            res.send("Created Appt, Error updating booking.");
+          })
+        }).catch((err)=>{
+          console.log(err);
+          res.send("Made appt, failed to find it.");
         })
       })
       .catch((err) => {
+        console.log(err);
         res.send("Error confirming appointment.");
       })
   }else{
@@ -329,11 +341,34 @@ router.route("/appointments")
 })
 .post(function (req, res) {
   console.log(req.body);
+  let { name, phone, date, time} = req.body;
   db.Appointment
-    .create(req.body)
-    .then(() => {
-      res.status(200);
-      res.send("Appointment created successfully.")
+    .findOrCreate({
+      where:{
+        name: name,
+        phone: phone,
+        date: date,
+        time: time
+      }
+    })
+    .then((dbAppointment) => {
+      console.log(dbAppointment[0].dataValues);
+      db.Bookings.update({
+        booked: true
+      },{
+        where:{
+          date: dbAppointment[0].dataValues.date,
+          time: dbAppointment[0].dataValues.time
+        }
+      }).then(()=>{
+        res.status(200);
+        res.send("Appointment created successfully.")
+      }).catch((err)=>{
+        res.status(400).send({
+          error: "Appt made, error updating booking."
+        });
+      })
+
     })
     .catch((err) => {
       console.log(err)
